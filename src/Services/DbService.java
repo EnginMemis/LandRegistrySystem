@@ -30,4 +30,24 @@ public class DbService implements IDbService {
             return null;
         }
     }
+
+    public void FinalizeConnections() {
+        try {
+            if (this.connection != null && !this.connection.isClosed())
+                this.connection.close();
+
+            if (this.statement != null && !this.statement.isClosed())
+                this.statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public Statement getStatement() {
+        return statement;
+    }
 }
