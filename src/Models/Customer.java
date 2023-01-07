@@ -1,6 +1,6 @@
 package Models;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Customer {
     private int ssn;

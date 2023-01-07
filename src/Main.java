@@ -13,37 +13,56 @@ public class Main {
 
         ArrayList<Customer> allCustomers = null;
         Customer nisa = null;
+        Customer nisaUpdated = null;
         Customer engin = null;
         try {
             allCustomers = customerService.getAll();
+            if (allCustomers == null) {
+                System.out.println("Kullanıcılar çekilemedi.");
+            } else {
+                for (Customer customer : allCustomers) {
+                    System.out.println(customer.getName() + " - " + customer.getSurname() + " - " + customer.getSsn());
+                }
+            }
+
             nisa = customerService.get(1010102);
-            engin = customerService.create(new Customer(1010104, "Engin", "Memiş",
+            if (nisa != null) {
+                System.out.println("Askm nisammm <3<3<3 " + nisa.getSsn());
+            } else {
+                System.out.println("Nisayı bulamadım bilader!!");
+            }
+
+            nisaUpdated = new Customer(nisa.getSsn(), "Nisa", "Arslan",
+                    new Date(1999, 10, 2),"Female", "05555555555",
+                    "nisaaskmmm@example.com", "Anıl'ın kalbi <3");
+            nisaUpdated = customerService.update(nisa.getSsn(), nisaUpdated);
+            System.out.println(nisaUpdated.getSsn() + " - " + nisaUpdated.getCustomerAddress());
+
+/*            engin = customerService.create(new Customer(1010104, "Engin", "Memiş",
                     new Date(1999, 10, 10), "Male", "05555555555",
-                    "engin.memis@std.yildiz.edu.tr", "asdasdasdasd"));
+                    "engin.memis@example.com", "asdasdasdasd"));
+
+            if (engin != null) {
+                System.out.println("Engin kardeşim: " + engin.getSsn());
+            } else {
+                System.out.println("Engini koyamadık :(");
+            }   //  */
+
+            // customerService.delete(1010104);
+
+            System.out.println("Son durum:");
+            allCustomers = customerService.getAll();
+            if (allCustomers == null) {
+                System.out.println("Kullanıcılar çekilemedi.");
+            } else {
+                for (Customer customer : allCustomers) {
+                    System.out.println(customer.getName() + " - " + customer.getSurname() + " - " + customer.getSsn());
+                }
+            }
 
             customerService.FinalizeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-
-        if (allCustomers == null) {
-            System.out.println("Kullanıcılar çekilemedi.");
-        } else {
-            for (Customer customer : allCustomers) {
-                System.out.println(customer.getName() + " - " + customer.getSurname() + " - " + customer.getSsn());
-            }
-        }
-
-        if (nisa != null) {
-            System.out.println("Askm nisammm <3<3<3 " + nisa.getSsn());
-        } else {
-            System.out.println("Nisayı bulamadım bilader!!");
-        }
-
-        if (engin != null) {
-            System.out.println("Engin kardeşim: " + engin.getSsn());
-        } else {
-            System.out.println("Engini koyamadık :(");
         }
     }
 }

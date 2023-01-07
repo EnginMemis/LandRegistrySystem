@@ -3,6 +3,7 @@ package Services;
 import Models.Customer;
 
 import java.sql.*;
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class CustomerService implements ICustomerService {
@@ -40,7 +41,7 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public Customer get(int id) throws SQLException {
+    public Customer get(Integer id) throws SQLException {
         Connection connection = this.dbService.getConnection();
 
         PreparedStatement preparedStatement =
@@ -78,13 +79,37 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public Customer update(Customer newCustomer) throws SQLException {
-        return null;
+    public Customer update(Integer ssn, Customer newCustomer) throws SQLException {
+        Connection connection = this.dbService.getConnection();
+
+        PreparedStatement preparedStatement =
+                connection.prepareStatement("UPDATE customer SET name = ?, surname = ?, " +
+                        "birth_date = ?, gender = ?, phone_number = ?, email = ?, address = ? WHERE ssn = ?");
+
+        preparedStatement.setString(1, newCustomer.getName());
+        preparedStatement.setString(2, newCustomer.getSurname());
+        preparedStatement.setDate(3, newCustomer.getBirthDate());
+        preparedStatement.setString(4, newCustomer.getGender());
+        preparedStatement.setString(5, newCustomer.getPhoneNumber());
+        preparedStatement.setString(6, newCustomer.getCustomerEmail());
+        preparedStatement.setString(7, newCustomer.getCustomerAddress());
+
+        preparedStatement.setInt(8, ssn);
+
+        preparedStatement.executeUpdate();
+
+        return newCustomer;
     }
 
     @Override
-    public Customer delete(int id) throws SQLException {
-        return null;
+    public void delete(Integer ssn) throws SQLException {
+        Connection connection = this.dbService.getConnection();
+
+        PreparedStatement preparedStatement =
+                connection.prepareStatement("DELETE FROM customer WHERE ssn = ?");
+        preparedStatement.setInt(1, ssn);
+
+        preparedStatement.executeUpdate();
     }
 
     @Override
