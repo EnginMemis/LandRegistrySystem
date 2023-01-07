@@ -1,8 +1,11 @@
 import Contracts.UpdateCustomer;
+import Contracts.UpdateLandRegistry;
 import Contracts.UpdateProperty;
 import Models.Customer;
+import Models.LandRegistry;
 import Models.Property;
 import Services.CustomerService;
+import Services.LandRegistryService;
 import Services.PropertyService;
 import Services.DbService;
 
@@ -15,6 +18,7 @@ public class Main {
     public static void main(String[] args) {
         CustomerService customerService = new CustomerService(new DbService());
         PropertyService propertyService = new PropertyService(new DbService());
+        LandRegistryService landRegistryService = new LandRegistryService(new DbService());
 
         ArrayList<Customer> allCustomers = null;
         ArrayList<Property> allProperty = null;
@@ -22,8 +26,10 @@ public class Main {
         Customer nisaUpdated = null;
         Customer engin = null;
         Property property = null;
+        LandRegistry landRegistry = null;
+        ArrayList<LandRegistry> landRegistries = null;
         try {
-            allCustomers = customerService.getAll();
+/*            allCustomers = customerService.getAll();
             if (allCustomers == null) {
                 System.out.println("Kullanıcılar çekilemedi.");
             } else {
@@ -55,7 +61,7 @@ public class Main {
                 System.out.println("Nisayı bulamadım bilader!!");
             }
 
-/*            engin = customerService.create(new Customer(1010104, "Engin", "Memiş",
+            engin = customerService.create(new Customer(1010104, "Engin", "Memiş",
                     new Date(1999, 10, 10), "Male", "05555555555",
                     "engin.memis@example.com", "asdasdasdasd", 17000));
 
@@ -63,11 +69,11 @@ public class Main {
                 System.out.println("Engin kardeşim: " + engin.getSsn());
             } else {
                 System.out.println("Engini koyamadık :(");
-            }   //*/
+            }
 
-            // customerService.delete(1010104);
+            customerService.delete(1010104);   //*/
 
-            System.out.println("Son durum:");
+/*            System.out.println("Son durum:");
             allCustomers = customerService.getAll();
             if (allCustomers == null) {
                 System.out.println("Kullanıcılar çekilemedi.");
@@ -96,7 +102,54 @@ public class Main {
                 System.out.println("Binalar Cekilemedi!");
             }
 
-            customerService.FinalizeConnection();
+            customerService.FinalizeConnections();  //  */
+
+            landRegistries = landRegistryService.getAll();
+
+            for (LandRegistry lr : landRegistries) {
+                System.out.println(lr.getLandRegistryId() + "-" + lr.getPropertyId()
+                        + "-" + lr.getPrice() + "-" + lr.getDate());
+                System.out.println(lr.getProperty().getPropertyAddress() + "-" + lr.getProperty().getPropertyType());
+            }
+
+            System.out.println("----");
+            landRegistry = landRegistryService.get(1);
+
+            if (landRegistry != null) {
+                System.out.println(landRegistry.getLandRegistryId() + "-" + landRegistry.getPropertyId()
+                        + "-" + landRegistry.getPrice() + "-" + landRegistry.getDate());
+                System.out.println(landRegistry.getProperty().getPropertyAddress() + "-"
+                        + landRegistry.getProperty().getPropertyType());
+            } else {
+                System.out.println("Bu ID'ye sahip tapu kaydı yok!");
+            }
+
+/*            System.out.println("----");
+
+            landRegistry = landRegistryService.create(new LandRegistry(500, 2, 1000,
+                    new Date(2023, 1, 7)));
+
+            if (landRegistry != null) {
+                System.out.println(landRegistry.getLandRegistryId() + "-" + landRegistry.getPropertyId()
+                        + "-" + landRegistry.getPrice() + "-" + landRegistry.getDate());
+            } else {
+                System.out.println("Oluşturamadık abi tapuyu :(");
+            }   //  */
+
+            System.out.println("----");
+
+            landRegistry = landRegistryService.update(500, new UpdateLandRegistry(200, 1000000, new Date(1999, 10, 20)));
+
+            if (landRegistry != null) {
+                System.out.println(landRegistry.getLandRegistryId() + "-" + landRegistry.getPropertyId()
+                        + "-" + landRegistry.getPrice() + "-" + landRegistry.getDate());
+            } else {
+                System.out.println("Güncelleyemedik abi :(");
+            }
+
+            landRegistryService.delete(500);
+
+            landRegistryService.FinalizeConnections();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -123,7 +123,7 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public void FinalizeConnection() throws SQLException {
+    public void FinalizeConnections() {
         this.dbService.FinalizeConnections();
     }
 }

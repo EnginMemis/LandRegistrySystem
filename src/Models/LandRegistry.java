@@ -1,20 +1,28 @@
 package Models;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class LandRegistry {
-    private int landRegistryId;
-    private int propertyId;
+    private Integer landRegistryId;
+    private Integer propertyId;
     private Property property;
     private double price;
     private Date date;
 
-    public LandRegistry(int landRegistryId, Property property, double price) {
+    public LandRegistry(Integer landRegistryId, Integer propertyId, double price, Date date) {
         this.landRegistryId = landRegistryId;
-        this.propertyId = property.getPropertyId();
+        this.propertyId = propertyId;
+        this.property = null;
+        this.price = price;
+        this.date = date;
+    }
+
+    public LandRegistry(Integer landRegistryId, Integer propertyId, Property property, double price, Date date) {
+        this.landRegistryId = landRegistryId;
+        this.propertyId = propertyId;
         this.property = property;
         this.price = price;
-        this.date = new Date();
+        this.date = date;
     }
 
     public int getLandRegistryId() {

@@ -1,13 +1,13 @@
 package Models;
 
 public class Property {
-    private int propertyId;
+    private Integer propertyId;
     private String propertyAddress;
     private String propertyType;
     private double propertyValue;
     private double propertyArea;
 
-    public Property(int propertyId, String propertyAddress, String propertyType, double propertyValue, double propertyArea) {
+    public Property(Integer propertyId, String propertyAddress, String propertyType, double propertyValue, double propertyArea) {
         this.propertyId = propertyId;
         this.propertyAddress = propertyAddress;
         this.propertyType = propertyType;

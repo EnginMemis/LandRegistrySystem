@@ -4,12 +4,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface IService<T, V, W> {
-    public T mapResult(ResultSet resultSet) throws SQLException;
-    public ArrayList<T> getAll() throws SQLException;
-    public T get(V id) throws SQLException;
-    public T create(T object) throws SQLException;
-    public T update(V id, W newObject) throws SQLException;
-    public void delete(V id) throws SQLException;
-    public void FinalizeConnection() throws SQLException;
+public interface IService<ObjectType, IdType, UpdateRecordType> {
+    public ObjectType mapResult(ResultSet resultSet) throws SQLException;
+    public ArrayList<ObjectType> getAll() throws SQLException;
+    public ObjectType get(IdType id) throws SQLException;
+    public ObjectType create(ObjectType object) throws SQLException;
+    public ObjectType update(IdType id, UpdateRecordType newObject) throws SQLException;
+    public void delete(IdType id) throws SQLException;
+    public void FinalizeConnections();
 }

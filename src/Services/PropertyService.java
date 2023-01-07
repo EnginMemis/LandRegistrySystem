@@ -1,7 +1,6 @@
 package Services;
 
 import Contracts.UpdateProperty;
-import Models.Customer;
 import Models.Property;
 
 import java.sql.Connection;
@@ -10,12 +9,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class PropertyService {
+public class PropertyService implements IPropertyService {
     private DbService dbService;
 
     public PropertyService(DbService dbService){
         this.dbService = dbService;
     }
+
     public Property mapResult(ResultSet resultSet) throws SQLException {
         int propertyId = resultSet.getInt(1);
         String propertyAddress = resultSet.getString(2);
@@ -66,8 +66,8 @@ public class PropertyService {
 
     public Property update(Integer id, UpdateProperty newProperty) throws SQLException{
         Connection connection = this.dbService.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE property SET propertyAddress = ?" +
-                "propertyType = ?, propertyValue = ? propertyArea = ? WHERE property_id = ?");
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE property SET address = ?" +
+                "property_type = ?, property_value = ?, area = ? WHERE property_id = ?");
         preparedStatement.setString(1, newProperty.propertyAddress());
         preparedStatement.setString(2, newProperty.propertyType());
         preparedStatement.setDouble(3, newProperty.propertyArea());
@@ -91,7 +91,7 @@ public class PropertyService {
         preparedStatement.executeUpdate();
     }
 
-    public void FinalizeConnection() throws SQLException{
+    public void FinalizeConnections(){
         this.dbService.FinalizeConnections();
     }
 }
