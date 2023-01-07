@@ -27,4 +27,4 @@ hs_err_pid*
 /bin/
 
 # Environment Variables (kinda)
-*/Constants
+src/EnvironmentVariables

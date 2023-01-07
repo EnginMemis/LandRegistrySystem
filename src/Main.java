@@ -1,4 +1,4 @@
-import Constants.DatabaseConnectionString;
+import Contracts.UpdateCustomer;
 import Models.Customer;
 import Services.CustomerService;
 import Services.DbService;
@@ -32,11 +32,20 @@ public class Main {
                 System.out.println("Nisayı bulamadım bilader!!");
             }
 
-            nisaUpdated = new Customer(nisa.getSsn(), "Nisa", "Arslan",
-                    new Date(1999, 10, 2),"Female", "05555555555",
-                    "nisaaskmmm@example.com", "Anıl'ın kalbi <3");
-            nisaUpdated = customerService.update(nisa.getSsn(), nisaUpdated);
-            System.out.println(nisaUpdated.getSsn() + " - " + nisaUpdated.getCustomerAddress());
+            nisaUpdated = customerService.update(nisa.getSsn(),
+                    new UpdateCustomer(
+                            nisa.getName(),
+                            nisa.getSurname(),
+                            nisa.getBirthDate(),
+                            nisa.getGender(),
+                            nisa.getPhoneNumber(),
+                            nisa.getCustomerEmail(),
+                            "Anıl askmın kalbii <3<3"));
+            if (nisaUpdated != null) {
+                System.out.println(nisaUpdated.getSsn() + " - " + nisaUpdated.getCustomerAddress());
+            } else {
+                System.out.println("Güncelleme işlemi başarısız :(");
+            }
 
 /*            engin = customerService.create(new Customer(1010104, "Engin", "Memiş",
                     new Date(1999, 10, 10), "Male", "05555555555",

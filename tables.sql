@@ -1,12 +1,25 @@
 CREATE TABLE customer (
 	ssn NUMERIC(9,0) PRIMARY KEY,
-	name VARCHAR(64),
-	surname VARCHAR(32),
+	fname VARCHAR(64),
+	lname VARCHAR(32),
 	birth_date DATE,
 	gender VARCHAR(8),
 	phone_number VARCHAR(16),
 	email VARCHAR(64),
-	address VARCHAR(256)
+	address VARCHAR(256),
+	wallet NUMERIC(17, 2)
+);
+
+CREATE TABLE employee (
+	ssn NUMERIC(9,0) PRIMARY KEY,
+	fname VARCHAR(64),
+	lname VARCHAR(32),
+	birth_date DATE,
+	gender VARCHAR(8),
+	phone_number VARCHAR(16),
+	email VARCHAR(64),
+	address VARCHAR(256),
+	wallet NUMERIC(17, 2)
 );
 
 CREATE TABLE property (
@@ -38,7 +51,7 @@ CREATE TABLE owns (
 	PRIMARY KEY (owner_ssn, lr_id)
 );
 
-ALTER TABLE property_features ADD FOREIGN KEY (property_id) REFERENCES property(property_id);
-ALTER TABLE land_registry ADD FOREIGN KEY (property_id) REFERENCES property(property_id);
-ALTER TABLE owns ADD FOREIGN KEY (owner_ssn) REFERENCES customer(ssn);
-ALTER TABLE owns ADD FOREIGN KEY (lr_id) REFERENCES land_registry(land_registry_id);
+ALTER TABLE property_feature ADD FOREIGN KEY (property_id) REFERENCES property(property_id) ON DELETE CASCADE;
+ALTER TABLE land_registry ADD FOREIGN KEY (property_id) REFERENCES property(property_id) ON DELETE CASCADE;
+ALTER TABLE owns ADD FOREIGN KEY (owner_ssn) REFERENCES customer(ssn) ON DELETE CASCADE;
+ALTER TABLE owns ADD FOREIGN KEY (lr_id) REFERENCES land_registry(land_registry_id) ON DELETE CASCADE;

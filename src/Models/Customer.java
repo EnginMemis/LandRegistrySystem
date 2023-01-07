@@ -3,7 +3,7 @@ package Models;
 import java.sql.Date;
 
 public class Customer {
-    private int ssn;
+    private Integer ssn;
     private String name;
     private String surname;
     private Date birthDate;
@@ -12,7 +12,7 @@ public class Customer {
     private String customerEmail;
     private String customerAddress;
 
-    public Customer(int ssn, String name, String surname, Date birthDate, String gender, String phoneNumber, String customerEmail, String address) {
+    public Customer(Integer ssn, String name, String surname, Date birthDate, String gender, String phoneNumber, String customerEmail, String address) {
         this.ssn = ssn;
         this.name = name;
         this.surname = surname;
@@ -23,11 +23,11 @@ public class Customer {
         this.customerAddress = address;
     }
 
-    public int getSsn() {
+    public Integer getSsn() {
         return ssn;
     }
 
-    public void setSsn(int ssn) {
+    public void setSsn(Integer ssn) {
         this.ssn = ssn;
     }
 
@@ -47,9 +47,7 @@ public class Customer {
         this.surname = surname;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
-    }
+    public Date getBirthDate() { return birthDate; }
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
@@ -79,9 +77,7 @@ public class Customer {
         this.customerEmail = customerEmail;
     }
 
-    public String getCustomerAddress() {
-        return customerAddress;
-    }
+    public String getCustomerAddress() { return customerAddress; }
 
     public void setCustomerAddress(String customerAddress) {
         this.customerAddress = customerAddress;

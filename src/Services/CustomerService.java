@@ -1,5 +1,6 @@
 package Services;
 
+import Contracts.UpdateCustomer;
 import Models.Customer;
 
 import java.sql.*;
@@ -79,26 +80,33 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public Customer update(Integer ssn, Customer newCustomer) throws SQLException {
+    public Customer update(Integer ssn, UpdateCustomer newCustomer) throws SQLException {
         Connection connection = this.dbService.getConnection();
 
         PreparedStatement preparedStatement =
                 connection.prepareStatement("UPDATE customer SET name = ?, surname = ?, " +
                         "birth_date = ?, gender = ?, phone_number = ?, email = ?, address = ? WHERE ssn = ?");
 
-        preparedStatement.setString(1, newCustomer.getName());
-        preparedStatement.setString(2, newCustomer.getSurname());
-        preparedStatement.setDate(3, newCustomer.getBirthDate());
-        preparedStatement.setString(4, newCustomer.getGender());
-        preparedStatement.setString(5, newCustomer.getPhoneNumber());
-        preparedStatement.setString(6, newCustomer.getCustomerEmail());
-        preparedStatement.setString(7, newCustomer.getCustomerAddress());
+        preparedStatement.setString(1, newCustomer.fname());
+        preparedStatement.setString(2, newCustomer.lname());
+        preparedStatement.setDate(3, newCustomer.birthDate());
+        preparedStatement.setString(4, newCustomer.gender());
+        preparedStatement.setString(5, newCustomer.phoneNumber());
+        preparedStatement.setString(6, newCustomer.email());
+        preparedStatement.setString(7, newCustomer.address());
 
         preparedStatement.setInt(8, ssn);
 
         preparedStatement.executeUpdate();
 
-        return newCustomer;
+        return new Customer(ssn,
+                newCustomer.fname(),
+                newCustomer.lname(),
+                newCustomer.birthDate(),
+                newCustomer.gender(),
+                newCustomer.phoneNumber(),
+                newCustomer.email(),
+                newCustomer.address());
     }
 
     @Override
