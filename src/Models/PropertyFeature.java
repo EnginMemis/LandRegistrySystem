@@ -15,6 +15,14 @@ public class PropertyFeature {
         this.featureValue = featureValue;
     }
 
+    public PropertyFeature(int featureId, int propertyId, String featureTitle, String featureValue) {
+        this.featureId = featureId;
+        this.propertyId = propertyId;
+        this.property = null;
+        this.featureTitle = featureTitle;
+        this.featureValue = featureValue;
+    }
+
     public int getFeatureId() {
         return featureId;
     }
