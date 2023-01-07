@@ -9,5 +9,6 @@ public record UpdateCustomer(
         String gender,
         String phoneNumber,
         String email,
-        String address) {
+        String address,
+        double wallet) {
 }

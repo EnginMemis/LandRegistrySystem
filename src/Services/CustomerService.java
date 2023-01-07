@@ -23,8 +23,9 @@ public class CustomerService implements ICustomerService {
         String phoneNumber = resultSet.getString(6);
         String email = resultSet.getString(7);
         String address = resultSet.getString(8);
+        double wallet = resultSet.getDouble(9);
 
-        return new Customer(ssn, name, surname, birthDate, gender, phoneNumber, email, address);
+        return new Customer(ssn, name, surname, birthDate, gender, phoneNumber, email, address, wallet);
     }
 
     @Override
@@ -84,7 +85,7 @@ public class CustomerService implements ICustomerService {
         Connection connection = this.dbService.getConnection();
 
         PreparedStatement preparedStatement =
-                connection.prepareStatement("UPDATE customer SET name = ?, surname = ?, " +
+                connection.prepareStatement("UPDATE customer SET fname = ?, lname = ?, " +
                         "birth_date = ?, gender = ?, phone_number = ?, email = ?, address = ? WHERE ssn = ?");
 
         preparedStatement.setString(1, newCustomer.fname());
@@ -106,7 +107,8 @@ public class CustomerService implements ICustomerService {
                 newCustomer.gender(),
                 newCustomer.phoneNumber(),
                 newCustomer.email(),
-                newCustomer.address());
+                newCustomer.address(),
+                newCustomer.wallet());
     }
 
     @Override

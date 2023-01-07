@@ -28,28 +28,29 @@ public class Main {
             nisa = customerService.get(1010102);
             if (nisa != null) {
                 System.out.println("Askm nisammm <3<3<3 " + nisa.getSsn());
+
+                nisaUpdated = customerService.update(nisa.getSsn(),
+                        new UpdateCustomer(
+                                nisa.getName(),
+                                nisa.getSurname(),
+                                nisa.getBirthDate(),
+                                nisa.getGender(),
+                                nisa.getPhoneNumber(),
+                                nisa.getCustomerEmail(),
+                                "Anıl askmın kalbii <3<3",
+                                3000000));
+                if (nisaUpdated != null) {
+                    System.out.println(nisaUpdated.getSsn() + " - " + nisaUpdated.getCustomerAddress());
+                } else {
+                    System.out.println("Güncelleme işlemi başarısız :(");
+                }
             } else {
                 System.out.println("Nisayı bulamadım bilader!!");
             }
 
-            nisaUpdated = customerService.update(nisa.getSsn(),
-                    new UpdateCustomer(
-                            nisa.getName(),
-                            nisa.getSurname(),
-                            nisa.getBirthDate(),
-                            nisa.getGender(),
-                            nisa.getPhoneNumber(),
-                            nisa.getCustomerEmail(),
-                            "Anıl askmın kalbii <3<3"));
-            if (nisaUpdated != null) {
-                System.out.println(nisaUpdated.getSsn() + " - " + nisaUpdated.getCustomerAddress());
-            } else {
-                System.out.println("Güncelleme işlemi başarısız :(");
-            }
-
 /*            engin = customerService.create(new Customer(1010104, "Engin", "Memiş",
                     new Date(1999, 10, 10), "Male", "05555555555",
-                    "engin.memis@example.com", "asdasdasdasd"));
+                    "engin.memis@example.com", "asdasdasdasd", 17000));
 
             if (engin != null) {
                 System.out.println("Engin kardeşim: " + engin.getSsn());

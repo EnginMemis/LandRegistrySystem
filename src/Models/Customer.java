@@ -11,8 +11,16 @@ public class Customer {
     private String phoneNumber;
     private String customerEmail;
     private String customerAddress;
+    private double wallet;
 
-    public Customer(Integer ssn, String name, String surname, Date birthDate, String gender, String phoneNumber, String customerEmail, String address) {
+    public Customer(Integer ssn,
+                    String name,
+                    String surname,
+                    Date birthDate,
+                    String gender,
+                    String phoneNumber,
+                    String customerEmail,
+                    String address, double wallet) {
         this.ssn = ssn;
         this.name = name;
         this.surname = surname;
@@ -21,6 +29,7 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.customerEmail = customerEmail;
         this.customerAddress = address;
+        this.wallet = wallet;
     }
 
     public Integer getSsn() {
@@ -81,5 +90,13 @@ public class Customer {
 
     public void setCustomerAddress(String customerAddress) {
         this.customerAddress = customerAddress;
+    }
+
+    public double getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(double wallet) {
+        this.wallet = wallet;
     }
 }
