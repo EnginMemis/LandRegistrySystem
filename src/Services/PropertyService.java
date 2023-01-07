@@ -66,7 +66,7 @@ public class PropertyService implements IPropertyService {
 
     public Property update(Integer id, UpdateProperty newProperty) throws SQLException{
         Connection connection = this.dbService.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE property SET address = ?" +
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE property SET address = ?," +
                 "property_type = ?, property_value = ?, area = ? WHERE property_id = ?");
         preparedStatement.setString(1, newProperty.propertyAddress());
         preparedStatement.setString(2, newProperty.propertyType());
