@@ -14,7 +14,7 @@ CREATE TABLE users (
 	address VARCHAR(256),
 	wallet NUMERIC(15,2) NOT NULL,
 	user_role VARCHAR(16) NOT NULL
-)
+);
 
 CREATE TABLE property (
 	property_id NUMERIC PRIMARY KEY NOT NULL DEFAULT nextval('property_id_seq'),
