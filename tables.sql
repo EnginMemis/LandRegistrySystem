@@ -14,7 +14,7 @@ CREATE TABLE users (
 	address VARCHAR(256),
 	wallet NUMERIC(15,2) NOT NULL,
 	user_role VARCHAR(16) NOT NULL
-);
+)
 
 CREATE TABLE property (
 	property_id NUMERIC PRIMARY KEY NOT NULL DEFAULT nextval('property_id_seq'),
@@ -69,8 +69,8 @@ DECLARE
 	seller_wallet NUMERIC(15,2);
 BEGIN
 	-- Get wallets of buyer and seller into variables
-	SELECT wallet INTO buyer_wallet FROM users WHERE user_id = new.buyer_id;
-	SELECT wallet INTO seller_wallet FROM users WHERE user_id = new.seller_id;
+	SELECT wallet INTO buyer_wallet FROM users WHERE ssn = new.buyer_id;
+	SELECT wallet INTO seller_wallet FROM users WHERE ssn = new.seller_id;
 	
 	-- Check if both buyer and seller have enough money for 2.5% cut
 	IF buyer_wallet < new.price * 1.025 THEN
@@ -78,8 +78,8 @@ BEGIN
 	END IF;
 	
 	-- Update wallets of buyer and seller
-	UPDATE users SET wallet = wallet - new.price * 1.025 WHERE user_id = buyer_id;
-	UPDATE users SET wallet = wallet + new.price * 0.975 WHERE user_id = seller_id;
+	UPDATE users SET wallet = wallet - new.price * 1.025 WHERE ssn = new.buyer_id;
+	UPDATE users SET wallet = wallet + new.price * 0.975 WHERE ssn = new.seller_id;
 	
 	-- How many employees do we have?
 	SELECT count(*) INTO number_of_employees FROM users WHERE user_role = 'Employee';
@@ -99,3 +99,11 @@ CREATE TRIGGER circulate_capital
 BEFORE INSERT
 ON land_registry
 FOR EACH ROW EXECUTE PROCEDURE sell_property();
+
+INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Engin','Memiş',500000,'Customer');
+INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Emirhan','Paksoy',70000000,'Customer');
+INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Mehmet Anıl','Karaşah',0,'Employee');
+INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Nisa','Arslan',10,'Employee');
+INSERT INTO property(address,property_type) VALUES ('Davutpasa','Land');
+INSERT INTO land_registry(property_id,buyer_id,seller_id,price) VALUES (1,1000005,1000001,100000);
+INSERT INTO land_registry(property_id,buyer_id,seller_id,price) VALUES (1,1000001,1000005,600000);
