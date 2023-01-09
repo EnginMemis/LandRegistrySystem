@@ -1,10 +1,9 @@
 package Contracts;
 
 public record UpdateProperty(
-            String propertyAddress,
-            String propertyType,
-            double propertyValue,
-            double propertyArea ) {
-
+            String address,
+            String type,
+            double value,
+            double area ) {
 }
 

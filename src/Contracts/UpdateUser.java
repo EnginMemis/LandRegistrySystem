@@ -2,7 +2,7 @@ package Contracts;
 
 import java.sql.Date;
 
-public record UpdateCustomer(
+public record UpdateUser(
         String fname,
         String lname,
         Date birthDate,
@@ -10,5 +10,6 @@ public record UpdateCustomer(
         String phoneNumber,
         String email,
         String address,
-        double wallet) {
+        double wallet,
+        String role) {
 }

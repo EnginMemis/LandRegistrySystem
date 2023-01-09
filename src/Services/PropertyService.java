@@ -28,7 +28,7 @@ public class PropertyService implements IPropertyService {
 
     public ArrayList<Property> getAll() throws SQLException{
         ArrayList<Property> response = new ArrayList<>();
-        ResultSet resultSet = dbService.ExecuteQuery("SELECT * FROM property");
+        ResultSet resultSet = dbService.ExecuteQuery("SELECT * FROM property ORDER BY property_id");
 
         while (resultSet.next()){
             Property property = mapResult(resultSet);
@@ -39,7 +39,8 @@ public class PropertyService implements IPropertyService {
 
     public Property get(Integer id) throws SQLException{
         Connection connection = this.dbService.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM property WHERE property_id = ?");
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT * FROM property WHERE property_id = ?");
         preparedStatement.setInt(1, id);
 
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -53,12 +54,12 @@ public class PropertyService implements IPropertyService {
 
     public Property create(Property property) throws SQLException{
         Connection connection = this.dbService.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO property VALUES(?,?,?,?,?)");
-        preparedStatement.setInt(1, property.getPropertyId());
-        preparedStatement.setString(2, property.getPropertyAddress());
-        preparedStatement.setString(3, property.getPropertyType());
-        preparedStatement.setDouble(4, property.getPropertyValue());
-        preparedStatement.setDouble(5, property.getPropertyArea());
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO property VALUES(?,?,?,?)");
+
+        preparedStatement.setString(1, property.getAddress());
+        preparedStatement.setString(2, property.getType());
+        preparedStatement.setDouble(3, property.getValue());
+        preparedStatement.setDouble(4, property.getArea());
 
         preparedStatement.executeUpdate();
         return property;
@@ -68,19 +69,19 @@ public class PropertyService implements IPropertyService {
         Connection connection = this.dbService.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE property SET address = ?," +
                 "property_type = ?, property_value = ?, area = ? WHERE property_id = ?");
-        preparedStatement.setString(1, newProperty.propertyAddress());
-        preparedStatement.setString(2, newProperty.propertyType());
-        preparedStatement.setDouble(3, newProperty.propertyArea());
-        preparedStatement.setDouble(4, newProperty.propertyValue());
+        preparedStatement.setString(1, newProperty.address());
+        preparedStatement.setString(2, newProperty.type());
+        preparedStatement.setDouble(3, newProperty.area());
+        preparedStatement.setDouble(4, newProperty.value());
         preparedStatement.setInt(5, id);
 
         preparedStatement.executeUpdate();
 
         return new Property(id,
-                newProperty.propertyAddress(),
-                newProperty.propertyType(),
-                newProperty.propertyArea(),
-                newProperty.propertyValue());
+                newProperty.address(),
+                newProperty.type(),
+                newProperty.area(),
+                newProperty.value());
     }
 
     public void delete(Integer id) throws SQLException{

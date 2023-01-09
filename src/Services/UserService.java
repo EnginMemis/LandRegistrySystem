@@ -1,20 +1,20 @@
 package Services;
 
-import Contracts.UpdateCustomer;
-import Models.Customer;
+import Contracts.UpdateUser;
+import Models.User;
 
 import java.sql.*;
 import java.sql.Date;
 import java.util.ArrayList;
 
-public class CustomerService implements ICustomerService {
+public class UserService implements IUserService {
     private DbService dbService;
 
-    public CustomerService(DbService dbService) {
+    public UserService(DbService dbService) {
         this.dbService = dbService;
     }
 
-    public Customer mapResult(ResultSet resultSet) throws SQLException {
+    public User mapResult(ResultSet resultSet) throws SQLException {
         int ssn = resultSet.getInt(1);
         String name = resultSet.getString(2);
         String surname = resultSet.getString(3);
@@ -24,30 +24,31 @@ public class CustomerService implements ICustomerService {
         String email = resultSet.getString(7);
         String address = resultSet.getString(8);
         double wallet = resultSet.getDouble(9);
+        String role = resultSet.getString(10);
 
-        return new Customer(ssn, name, surname, birthDate, gender, phoneNumber, email, address, wallet);
+        return new User(ssn, name, surname, birthDate, gender, phoneNumber, email, address, wallet, role);
     }
 
     @Override
-    public ArrayList<Customer> getAll() throws SQLException {
-        ArrayList<Customer> response = new ArrayList<>();
+    public ArrayList<User> getAll() throws SQLException {
+        ArrayList<User> response = new ArrayList<>();
 
-        ResultSet resultSet = dbService.ExecuteQuery("SELECT * FROM customer");
+        ResultSet resultSet = dbService.ExecuteQuery("SELECT * FROM users ORDER BY ssn");
 
         while (resultSet.next()) {
-            Customer customer = mapResult(resultSet);
-            response.add(customer);
+            User user = mapResult(resultSet);
+            response.add(user);
         }
 
         return response;
     }
 
     @Override
-    public Customer get(Integer id) throws SQLException {
+    public User get(Integer id) throws SQLException {
         Connection connection = this.dbService.getConnection();
 
         PreparedStatement preparedStatement =
-                connection.prepareStatement("SELECT * FROM customer WHERE ssn = ?");
+                connection.prepareStatement("SELECT * FROM users WHERE ssn = ?");
         preparedStatement.setInt(1, id);
 
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -60,55 +61,60 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public Customer create(Customer customer) throws SQLException {
+    public User create(User user) throws SQLException {
         Connection connection = this.dbService.getConnection();
 
         PreparedStatement preparedStatement =
-                connection.prepareStatement("INSERT INTO customer VALUES (?,?,?,?,?,?,?,?)");
+                connection.prepareStatement("INSERT INTO users (fname, lname, birth_date, " +
+                        "gender, phone_number, email, address, user_role, wallet) VALUES (?,?,?,?,?,?,?,?, 0)");
 
-        preparedStatement.setInt(1, customer.getSsn());
-        preparedStatement.setString(2, customer.getName());
-        preparedStatement.setString(3, customer.getSurname());
-        preparedStatement.setDate(4, customer.getBirthDate());
-        preparedStatement.setString(5, customer.getGender());
-        preparedStatement.setString(6, customer.getPhoneNumber());
-        preparedStatement.setString(7, customer.getCustomerEmail());
-        preparedStatement.setString(8, customer.getCustomerAddress());
+        preparedStatement.setString(1, user.getFname());
+        preparedStatement.setString(2, user.getLname());
+        preparedStatement.setDate(3, user.getBirthDate());
+        preparedStatement.setString(4, user.getGender());
+        preparedStatement.setString(5, user.getPhoneNumber());
+        preparedStatement.setString(6, user.getEmail());
+        preparedStatement.setString(7, user.getAddress());
+        preparedStatement.setString(8, user.getRole());
 
         preparedStatement.executeUpdate();
 
-        return customer;
+        return user;
     }
 
     @Override
-    public Customer update(Integer ssn, UpdateCustomer newCustomer) throws SQLException {
+    public User update(Integer ssn, UpdateUser newUser) throws SQLException {
         Connection connection = this.dbService.getConnection();
 
         PreparedStatement preparedStatement =
-                connection.prepareStatement("UPDATE customer SET fname = ?, lname = ?, " +
-                        "birth_date = ?, gender = ?, phone_number = ?, email = ?, address = ? WHERE ssn = ?");
+                connection.prepareStatement("UPDATE users SET fname = ?, lname = ?, " +
+                        "birth_date = ?, gender = ?, phone_number = ?, email = ?, address = ?," +
+                        "wallet = ?, user_role = ? WHERE ssn = ?");
 
-        preparedStatement.setString(1, newCustomer.fname());
-        preparedStatement.setString(2, newCustomer.lname());
-        preparedStatement.setDate(3, newCustomer.birthDate());
-        preparedStatement.setString(4, newCustomer.gender());
-        preparedStatement.setString(5, newCustomer.phoneNumber());
-        preparedStatement.setString(6, newCustomer.email());
-        preparedStatement.setString(7, newCustomer.address());
+        preparedStatement.setString(1, newUser.fname());
+        preparedStatement.setString(2, newUser.lname());
+        preparedStatement.setDate(3, newUser.birthDate());
+        preparedStatement.setString(4, newUser.gender());
+        preparedStatement.setString(5, newUser.phoneNumber());
+        preparedStatement.setString(6, newUser.email());
+        preparedStatement.setString(7, newUser.address());
+        preparedStatement.setDouble(8, newUser.wallet());
+        preparedStatement.setString(9, newUser.role());
 
-        preparedStatement.setInt(8, ssn);
+        preparedStatement.setInt(10, ssn);
 
         preparedStatement.executeUpdate();
 
-        return new Customer(ssn,
-                newCustomer.fname(),
-                newCustomer.lname(),
-                newCustomer.birthDate(),
-                newCustomer.gender(),
-                newCustomer.phoneNumber(),
-                newCustomer.email(),
-                newCustomer.address(),
-                newCustomer.wallet());
+        return new User(ssn,
+                newUser.fname(),
+                newUser.lname(),
+                newUser.birthDate(),
+                newUser.gender(),
+                newUser.phoneNumber(),
+                newUser.email(),
+                newUser.address(),
+                newUser.wallet(),
+                newUser.role());
     }
 
     @Override
@@ -116,7 +122,7 @@ public class CustomerService implements ICustomerService {
         Connection connection = this.dbService.getConnection();
 
         PreparedStatement preparedStatement =
-                connection.prepareStatement("DELETE FROM customer WHERE ssn = ?");
+                connection.prepareStatement("DELETE FROM users WHERE ssn = ?");
         preparedStatement.setInt(1, ssn);
 
         preparedStatement.executeUpdate();

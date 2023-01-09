@@ -9,7 +9,7 @@ public class PropertyFeature {
 
     public PropertyFeature(int featureId, Property property, String featureTitle, String featureValue) {
         this.featureId = featureId;
-        this.propertyId = property.getPropertyId();
+        this.propertyId = property.getId();
         this.property = property;
         this.featureTitle = featureTitle;
         this.featureValue = featureValue;

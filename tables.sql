@@ -12,8 +12,8 @@ CREATE TABLE users (
 	phone_number VARCHAR(16),
 	email VARCHAR(64),
 	address VARCHAR(256),
-	wallet NUMERIC(15,2) NOT NULL,
-	user_role VARCHAR(16) NOT NULL
+	wallet NUMERIC(15,2) NOT NULL DEFAULT 0,
+	user_role VARCHAR(16) NOT NULL DEFAULT 'Customer'
 );
 
 CREATE TABLE property (
@@ -54,7 +54,7 @@ CREATE VIEW user_land_registry AS
 	FROM users INNER JOIN land_registry ON users.ssn = land_registry.buyer_ssn;
 
 CREATE VIEW land_registry_property AS
-	SELECT land_registry_id, buyer_ssn, price, issued_at, is_active, property.property_id, address, property_type, property_value, area
+	SELECT land_registry_id, buyer_ssn, seller_ssn, price, issued_at, is_active, property.property_id, address, property_type, property_value, area
 	FROM land_registry INNER JOIN property ON land_registry.property_id = property.property_id;
 
 CREATE OR REPLACE FUNCTION sell_property()

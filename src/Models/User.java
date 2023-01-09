@@ -2,34 +2,58 @@ package Models;
 
 import java.sql.Date;
 
-public class Customer {
+public class User {
     private Integer ssn;
-    private String name;
-    private String surname;
+    private String fname;
+    private String lname;
     private Date birthDate;
     private String gender;
     private String phoneNumber;
-    private String customerEmail;
-    private String customerAddress;
+    private String email;
+    private String address;
     private double wallet;
+    private String role;
 
-    public Customer(Integer ssn,
-                    String name,
-                    String surname,
-                    Date birthDate,
-                    String gender,
-                    String phoneNumber,
-                    String customerEmail,
-                    String address, double wallet) {
-        this.ssn = ssn;
-        this.name = name;
-        this.surname = surname;
+    public User(String fname,
+                String lname,
+                Date birthDate,
+                String gender,
+                String phoneNumber,
+                String email,
+                String address,
+                double wallet,
+                String role) {
+        this.fname = fname;
+        this.lname = lname;
         this.birthDate = birthDate;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
-        this.customerEmail = customerEmail;
-        this.customerAddress = address;
+        this.email = email;
+        this.address = address;
         this.wallet = wallet;
+        this.role = role;
+    }
+
+    public User(Integer ssn,
+                String fname,
+                String lname,
+                Date birthDate,
+                String gender,
+                String phoneNumber,
+                String email,
+                String address,
+                double wallet,
+                String role) {
+        this.ssn = ssn;
+        this.fname = fname;
+        this.lname = lname;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
+        this.wallet = wallet;
+        this.role = role;
     }
 
     public Integer getSsn() {
@@ -40,23 +64,25 @@ public class Customer {
         this.ssn = ssn;
     }
 
-    public String getName() {
-        return name;
+    public String getFname() {
+        return fname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFname(String fname) {
+        this.fname = fname;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLname() {
+        return lname;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLname(String lname) {
+        this.lname = lname;
     }
 
-    public Date getBirthDate() { return birthDate; }
+    public Date getBirthDate() {
+        return birthDate;
+    }
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
@@ -78,18 +104,20 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getCustomerEmail() {
-        return customerEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCustomerEmail(String customerEmail) {
-        this.customerEmail = customerEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getCustomerAddress() { return customerAddress; }
+    public String getAddress() {
+        return address;
+    }
 
-    public void setCustomerAddress(String customerAddress) {
-        this.customerAddress = customerAddress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public double getWallet() {
@@ -98,5 +126,13 @@ public class Customer {
 
     public void setWallet(double wallet) {
         this.wallet = wallet;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

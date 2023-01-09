@@ -1,8 +1,8 @@
 package Services;
 
-import Contracts.UpdateCustomer;
+import Contracts.UpdateUser;
 import Models.User;
 
-public interface ICustomerService extends IService<User, Integer, UpdateCustomer> {
+public interface IUserService extends IService<User, Integer, UpdateUser> {
 
 }
