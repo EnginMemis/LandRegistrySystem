@@ -54,7 +54,7 @@ CREATE VIEW user_land_registry AS
 	FROM users INNER JOIN land_registry ON users.ssn = land_registry.buyer_ssn;
 
 CREATE VIEW land_registry_property AS
-	SELECT land_registry_id, buyer_ssn, price, issued_at, isActive, property.property_id, address, property_type, property_value, area
+	SELECT land_registry_id, buyer_ssn, price, issued_at, is_active, property.property_id, address, property_type, property_value, area
 	FROM land_registry INNER JOIN property ON land_registry.property_id = property.property_id;
 
 CREATE OR REPLACE FUNCTION sell_property()
@@ -101,8 +101,22 @@ FOR EACH ROW EXECUTE PROCEDURE sell_property();
 
 INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Engin','Memiş',500000,'Customer');
 INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Emirhan','Paksoy',70000000,'Customer');
-INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Mehmet Anıl','Karaşah',0,'Employee');
-INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Nisa','Arslan',10,'Employee');
+INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Mehmet Anıl','Karaşah',10000,'Employee');
+INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Nisa','Arslan',25000,'Employee');
+INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Elif Sena','Yılmaz',2500000,'Customer');
+INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Şeymanur','Korkmaz',17000000,'Customer');
+INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Beyda','Güler',25000,'Customer');
+INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Umut','Deşer',3100,'Employee');
+INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Yiğit','Sökel',2500000,'Customer');
+INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Berkay','Demirhan',12000,'Employee');
+
 INSERT INTO property(address,property_type) VALUES ('Davutpasa','Land');
-INSERT INTO land_registry(property_id,buyer_ssn,seller_ssn,price) VALUES (1,1000005,1000001,100000);
-INSERT INTO land_registry(property_id,buyer_ssn,seller_ssn,price) VALUES (1,1000001,1000005,600000);
+INSERT INTO property(address,property_type) VALUES ('YTÜ Ortabahçe','Garden');
+INSERT INTO property(address,property_type) VALUES ('Elektrik-Elektronik Fakültesi','Building');
+INSERT INTO property(address,property_type) VALUES ('Fen-Edebiyat Fakültesi','Building');
+INSERT INTO property(address,property_type) VALUES ('Büyük Ev','Cafe');
+INSERT INTO property(address,property_type) VALUES ('Kayıntı','Cafe');
+INSERT INTO property(address,property_type) VALUES ('Taş Bina','Building');
+
+INSERT INTO land_registry(property_id,buyer_ssn,seller_ssn,price) VALUES (1,1000002,1000001,100000);
+INSERT INTO land_registry(property_id,buyer_ssn,seller_ssn,price) VALUES (1,1000001,1000002,600000);
