@@ -36,28 +36,26 @@ CREATE TABLE property_feature (
 CREATE TABLE land_registry (
 	land_registry_id NUMERIC PRIMARY KEY NOT NULL DEFAULT nextval('land_registry_id_seq'),
 	property_id NUMERIC NOT NULL,
-	buyer_id NUMERIC NOT NULL,
-	seller_id NUMERIC NOT NULL,
+	buyer_ssn NUMERIC NOT NULL,
+	seller_ssn NUMERIC NOT NULL,
 	price NUMERIC(15,2) NOT NULL,
 	issued_at DATE DEFAULT now(),
-	isActive BOOLEAN NOT NULL DEFAULT true,
+	is_active BOOLEAN NOT NULL DEFAULT true,
 	
 	FOREIGN KEY (property_id) REFERENCES property(property_id) ON DELETE CASCADE,
-	FOREIGN KEY (buyer_id) REFERENCES users(ssn) ON DELETE CASCADE,
-	FOREIGN KEY (seller_id) REFERENCES users(ssn) ON DELETE CASCADE
+	FOREIGN KEY (buyer_ssn) REFERENCES users(ssn) ON DELETE CASCADE,
+	FOREIGN KEY (seller_ssn) REFERENCES users(ssn) ON DELETE CASCADE
 );
 
 ALTER TABLE users ADD CONSTRAINT check_role CHECK (user_role IN ('Customer', 'Employee'));
 
 CREATE VIEW user_land_registry AS
 	SELECT ssn, fname, lname, birth_date, gender, phone_number, email, address, wallet, user_role, land_registry_id, property_id, price, issued_at 
-	FROM users INNER JOIN land_registry ON users.ssn = land_registry.buyer_id;
+	FROM users INNER JOIN land_registry ON users.ssn = land_registry.buyer_ssn;
 
 CREATE VIEW land_registry_property AS
-	SELECT land_registry_id, buyer_id, price, issued_at, isActive, property.property_id, address, property_type, property_value, area
+	SELECT land_registry_id, buyer_ssn, price, issued_at, isActive, property.property_id, address, property_type, property_value, area
 	FROM land_registry INNER JOIN property ON land_registry.property_id = property.property_id;
-
-
 
 CREATE OR REPLACE FUNCTION sell_property()
 RETURNS TRIGGER AS $$
@@ -69,8 +67,8 @@ DECLARE
 	seller_wallet NUMERIC(15,2);
 BEGIN
 	-- Get wallets of buyer and seller into variables
-	SELECT wallet INTO buyer_wallet FROM users WHERE ssn = new.buyer_id;
-	SELECT wallet INTO seller_wallet FROM users WHERE ssn = new.seller_id;
+	SELECT wallet INTO buyer_wallet FROM users WHERE ssn = new.buyer_ssn;
+	SELECT wallet INTO seller_wallet FROM users WHERE ssn = new.seller_ssn;
 	
 	-- Check if both buyer and seller have enough money for 2.5% cut
 	IF buyer_wallet < new.price * 1.025 THEN
@@ -78,8 +76,8 @@ BEGIN
 	END IF;
 	
 	-- Update wallets of buyer and seller
-	UPDATE users SET wallet = wallet - new.price * 1.025 WHERE ssn = new.buyer_id;
-	UPDATE users SET wallet = wallet + new.price * 0.975 WHERE ssn = new.seller_id;
+	UPDATE users SET wallet = wallet - new.price * 1.025 WHERE ssn = new.buyer_ssn;
+	UPDATE users SET wallet = wallet + new.price * 0.975 WHERE ssn = new.seller_ssn;
 	
 	-- How many employees do we have?
 	SELECT count(*) INTO number_of_employees FROM users WHERE user_role = 'Employee';
@@ -90,10 +88,11 @@ BEGIN
 	-- Send money to wallets
 	UPDATE users SET wallet = wallet + amount_to_share WHERE user_role = 'Employee';
 	
+	UPDATE land_registry SET is_active = false WHERE property_id = new.property_id AND is_active = true;
+	
 	RETURN new;
 END;
 $$ LANGUAGE 'plpgsql';
-
 
 CREATE TRIGGER circulate_capital
 BEFORE INSERT
@@ -105,5 +104,5 @@ INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Emirhan','Paksoy',70000
 INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Mehmet Anıl','Karaşah',0,'Employee');
 INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Nisa','Arslan',10,'Employee');
 INSERT INTO property(address,property_type) VALUES ('Davutpasa','Land');
-INSERT INTO land_registry(property_id,buyer_id,seller_id,price) VALUES (1,1000005,1000001,100000);
-INSERT INTO land_registry(property_id,buyer_id,seller_id,price) VALUES (1,1000001,1000005,600000);
+INSERT INTO land_registry(property_id,buyer_ssn,seller_ssn,price) VALUES (1,1000005,1000001,100000);
+INSERT INTO land_registry(property_id,buyer_ssn,seller_ssn,price) VALUES (1,1000001,1000005,600000);
