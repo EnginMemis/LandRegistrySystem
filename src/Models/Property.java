@@ -15,7 +15,7 @@ public class Property {
         this.area = area;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

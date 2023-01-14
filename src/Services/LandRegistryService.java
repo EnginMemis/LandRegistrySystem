@@ -130,7 +130,21 @@ public class LandRegistryService implements ILandRegistryService {
     }
 
     @Override
+    public ArrayList<LandRegistry> getPropertyID(Integer buyerSSN) throws SQLException{
+        ArrayList<LandRegistry> list = new ArrayList<>();
+        Connection connection = this.dbService.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT * FROM land_registry_property WHERE buyer_ssn = ?");
+        preparedStatement.setInt(1, buyerSSN);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()){
+            list.add(mapResult(resultSet));
+        }
+        return list;
+    }
+    @Override
     public void FinalizeConnections() {
         this.dbService.FinalizeConnections();
     }
+
 }

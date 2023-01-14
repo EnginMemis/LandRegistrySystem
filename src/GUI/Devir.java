@@ -20,9 +20,15 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.Format;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
+import Models.LandRegistry;
+import Models.Property;
+import Models.User;
 import Services.DbService;
 import Services.UserService;
+import Services.PropertyService;
+import Services.LandRegistryService;
 
 public class Devir extends JFrame {
 
@@ -38,6 +44,8 @@ public class Devir extends JFrame {
 	private JPanel panel_1;
 	private JButton btnNewButton_2;
 	UserService userService = new UserService(new DbService());
+	PropertyService propertyService = new PropertyService(new DbService());
+	LandRegistryService landRegistryService = new LandRegistryService(new DbService());
 
 	/**
 	 * Launch the application.
@@ -76,8 +84,8 @@ public class Devir extends JFrame {
 		lblNewLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
 		lblNewLabel.setBounds(64, 74, 84, 25);
 		contentPane.add(lblNewLabel);
-		
-		
+
+
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setForeground(Color.BLACK);
@@ -90,20 +98,33 @@ public class Devir extends JFrame {
 		scrollPane.setBounds(355, 110, 524, 319);
 		contentPane.add(scrollPane);
 		scrollPane.setVisible(false);
-		
+
+
 		JButton btnNewButton = new JButton("Listele");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Integer tmp = Integer.parseInt(textField.getText());
-				System.out.println(tmp);
 				try {
-					System.out.println(userService.get(tmp).getFname());
-				} catch (SQLException ex) {
-					throw new RuntimeException(ex);
+					int i = 0;
+					String[] baslik = { "ID", "Address", "Land Type", "Value", "Area"};
+					Integer tmp = Integer.parseInt(textField.getText());
+					User person = userService.get(tmp);
+					ArrayList<LandRegistry> landList = landRegistryService.getPropertyID(person.getSsn());
+					String[][] veri = new String[landList.size()][5];
+					for(LandRegistry landRegistry : landList){
+						Property property = propertyService.get(landRegistry.getPropertyId());
+						veri[i] = new String[]{property.getId().toString(), property.getAddress(),
+								property.getType(), String.format("%.3f", property.getValue()), String.format("%.2f", property.getArea())};
+						i++;
+					}
+					table = new JTable(veri,baslik);
+					table.setEnabled(false);
+					scrollPane.setViewportView(table);
+					textField_1.setVisible(true);
+					lblNewLabel_1.setVisible(true);
+					scrollPane.setVisible(true);
+				} catch (Exception ex) {
+					ex.printStackTrace();
 				}
-				textField_1.setVisible(true);
-				lblNewLabel_1.setVisible(true);
-				scrollPane.setVisible(true);
 			}
 		});
 		btnNewButton.setForeground(Color.WHITE);
@@ -112,19 +133,6 @@ public class Devir extends JFrame {
 		btnNewButton.setBackground(Color.DARK_GRAY);
 		btnNewButton.setBounds(2, 2, 102, 32);
 		panel_2.add(btnNewButton);
-		
-		
-		
-		
-		
-		
-		
-		String[] baslik = { "ID", "Address", "Land Type", "Value", "Area"};
-		String[][] veri = {{" "," "," "," "," "}};
-		table = new JTable(veri,baslik);
-		scrollPane.setViewportView(table);
-		
-		
 		
 		lblNewLabel_1 = new JLabel("ID:");
 		lblNewLabel_1.setFont(new Font("Verdana", Font.PLAIN, 18));
