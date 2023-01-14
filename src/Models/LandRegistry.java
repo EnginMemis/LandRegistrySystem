@@ -18,7 +18,7 @@ public class LandRegistry {
                         Integer propertyId,
                         Integer buyerSsn,
                         Integer sellerSsn,
-                        double price,
+                        Double price,
                         Date issuedAt,
                         boolean isActive) {
         this.id = id;

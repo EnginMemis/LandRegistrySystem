@@ -51,6 +51,7 @@ public class Devir extends JFrame {
 	UserService userService = new UserService(new DbService());
 	PropertyService propertyService = new PropertyService(new DbService());
 	LandRegistryService landRegistryService = new LandRegistryService(new DbService());
+	User person;
 
 	/**
 	 * Launch the application.
@@ -109,11 +110,12 @@ public class Devir extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					LandRegistry land;
 					int i = 0;
 					String[] baslik = { "ID", "Address", "Land Type", "Value", "Area"};
 					Integer tmp = Integer.parseInt(textField.getText());
-					User person = userService.get(tmp);
-					ArrayList<LandRegistry> landList = landRegistryService.getPropertyID(person.getSsn());
+					person = userService.get(tmp);
+					ArrayList<LandRegistry> landList = landRegistryService.getLands(person.getSsn());
 					veri = new String[landList.size()][5];
 					for(LandRegistry landRegistry : landList){
 						Property property = propertyService.get(landRegistry.getPropertyId());
@@ -169,21 +171,26 @@ public class Devir extends JFrame {
 		btnNewButton_1 = new JButton("Satıs Yap");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					try {
-						Integer tmp2 = Integer.parseInt(textField_1.getText());		
-						int i = table.getSelectedRow();
-						if(i != -1) {
-							System.out.println(veri[table.getSelectedRow()][1]);
+				try {
+					Integer tmp2 = Integer.parseInt(textField_1.getText());
+					int ID = -1;
+					int i = table.getSelectedRow();
+					if(i != -1) {
+						ArrayList<LandRegistry> land = landRegistryService.getLands(person.getSsn());
+						for(LandRegistry landRegistry : land){
+							if(Integer.parseInt(veri[i][0]) == landRegistry.getPropertyId() && landRegistry.isActive()){
+								ID = landRegistry.getPropertyId();
+							}
 						}
-						else {
-							JOptionPane.showMessageDialog(null, "Tapu seçilmedi !!!");
-						}
-						
-						
-					
-					} catch(Exception e1){
-						e1.printStackTrace();
+						landRegistryService.create(new LandRegistry(null, ID, tmp2, person.getSsn(),
+								42000.2, null, true));
 					}
+					else {
+						JOptionPane.showMessageDialog(null, "Tapu seçilmedi !!!");
+					}
+				} catch(Exception e1){
+					e1.printStackTrace();
+				}
 		}});
 		btnNewButton_1.setForeground(Color.WHITE);
 		btnNewButton_1.setFont(new Font("Bodoni MT", Font.PLAIN, 22));

@@ -79,14 +79,13 @@ public class LandRegistryService implements ILandRegistryService {
         Connection connection = this.dbService.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(
                 "INSERT INTO land_registry(property_id, buyer_ssn, seller_ssn, price, " +
-                        "issued_at, is_active) VALUES(?,?,?,?,?,?)");
+                        "is_active) VALUES(?,?,?,?,?)");
 
         preparedStatement.setInt(1, landRegistry.getPropertyId());
         preparedStatement.setInt(2, landRegistry.getBuyerSsn());
         preparedStatement.setInt(3, landRegistry.getSellerSsn());
         preparedStatement.setDouble(4, landRegistry.getPrice());
-        preparedStatement.setDate(5, landRegistry.getIssuedAt());
-        preparedStatement.setBoolean(6, landRegistry.isActive());
+        preparedStatement.setBoolean(5, landRegistry.isActive());
 
         preparedStatement.executeUpdate();
 
@@ -130,15 +129,19 @@ public class LandRegistryService implements ILandRegistryService {
     }
 
     @Override
-    public ArrayList<LandRegistry> getPropertyID(Integer buyerSSN) throws SQLException{
+    public ArrayList<LandRegistry> getLands(Integer buyerSSN) throws SQLException{
         ArrayList<LandRegistry> list = new ArrayList<>();
+        LandRegistry land;
         Connection connection = this.dbService.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(
                 "SELECT * FROM land_registry_property WHERE buyer_ssn = ?");
         preparedStatement.setInt(1, buyerSSN);
         ResultSet resultSet = preparedStatement.executeQuery();
         while(resultSet.next()){
-            list.add(mapResult(resultSet));
+            land = mapResult(resultSet);
+            if(land.isActive()){
+                list.add(land);
+            }
         }
         return list;
     }
