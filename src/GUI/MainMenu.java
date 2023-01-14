@@ -41,7 +41,7 @@ public class MainMenu extends JFrame {
 		ImageIcon bg = new ImageIcon("1.png");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 940, 720);
+		setBounds(300, 300, 940, 720);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

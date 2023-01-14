@@ -6,6 +6,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.Color;
 import javax.swing.JToggleButton;
 import javax.swing.JTextField;
@@ -14,8 +16,11 @@ import javax.swing.JTable;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.Format;
@@ -31,7 +36,7 @@ import Services.PropertyService;
 import Services.LandRegistryService;
 
 public class Devir extends JFrame {
-
+	String[][] veri;
 	private JPanel contentPane;
 	private JTextField textField;
 	private JLabel lblNewLabel;
@@ -85,7 +90,7 @@ public class Devir extends JFrame {
 		lblNewLabel.setBounds(64, 74, 84, 25);
 		contentPane.add(lblNewLabel);
 
-
+		
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setForeground(Color.BLACK);
@@ -109,21 +114,27 @@ public class Devir extends JFrame {
 					Integer tmp = Integer.parseInt(textField.getText());
 					User person = userService.get(tmp);
 					ArrayList<LandRegistry> landList = landRegistryService.getPropertyID(person.getSsn());
-					String[][] veri = new String[landList.size()][5];
+					veri = new String[landList.size()][5];
 					for(LandRegistry landRegistry : landList){
 						Property property = propertyService.get(landRegistry.getPropertyId());
 						veri[i] = new String[]{property.getId().toString(), property.getAddress(),
 								property.getType(), String.format("%.3f", property.getValue()), String.format("%.2f", property.getArea())};
 						i++;
 					}
-					table = new JTable(veri,baslik);
-					table.setEnabled(false);
+					DefaultTableModel tablemodel = new DefaultTableModel(veri,baslik) {
+						@Override
+						public boolean isCellEditable(int row, int column) {
+							return false;
+						}
+					};
+					table = new JTable(tablemodel);
+					table.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
 					scrollPane.setViewportView(table);
 					textField_1.setVisible(true);
 					lblNewLabel_1.setVisible(true);
 					scrollPane.setVisible(true);
 				} catch (Exception ex) {
-					ex.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Kullanıcı bulunamadı !!!");
 				}
 			}
 		});
@@ -156,6 +167,24 @@ public class Devir extends JFrame {
 		contentPane.add(panel);
 		
 		btnNewButton_1 = new JButton("Satıs Yap");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					try {
+						Integer tmp2 = Integer.parseInt(textField_1.getText());		
+						int i = table.getSelectedRow();
+						if(i != -1) {
+							System.out.println(veri[table.getSelectedRow()][1]);
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Tapu seçilmedi !!!");
+						}
+						
+						
+					
+					} catch(Exception e1){
+						e1.printStackTrace();
+					}
+		}});
 		btnNewButton_1.setForeground(Color.WHITE);
 		btnNewButton_1.setFont(new Font("Bodoni MT", Font.PLAIN, 22));
 		btnNewButton_1.setFocusable(false);

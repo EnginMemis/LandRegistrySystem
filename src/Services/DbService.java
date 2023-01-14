@@ -5,10 +5,12 @@ import EnvironmentVariables.DatabaseConnectionString;
 import java.sql.*;
 
 public class DbService implements IDbService {
+	
     private Connection connection;
     private Statement statement;
 
     public DbService() {
+    	
         try {
             this.connection = DriverManager.getConnection(DatabaseConnectionString.DatabaseConnectionString,
                     DatabaseConnectionString.DatabaseUsername,
