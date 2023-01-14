@@ -94,19 +94,18 @@ public class Devir extends JFrame {
 		JButton btnNewButton = new JButton("Listele");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
-				String tmp = textField.getText();
+
 				
 				
-=======
+				
+
 				Integer tmp = Integer.parseInt(textField.getText());
 				System.out.println(tmp);
 				try {
 					System.out.println(userService.get(tmp).getFname());
 				} catch (SQLException ex) {
-					throw new RuntimeException(ex);
+					ex.printStackTrace();
 				}
->>>>>>> 9c5651bc9ccf708c9a697a127661f95494729dc8
 				textField_1.setVisible(true);
 				lblNewLabel_1.setVisible(true);
 				scrollPane.setVisible(true);
