@@ -17,8 +17,12 @@ import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.text.Format;
 import java.awt.event.ActionEvent;
+
+import Services.DbService;
+import Services.UserService;
 
 public class Devir extends JFrame {
 
@@ -33,6 +37,7 @@ public class Devir extends JFrame {
 	private JButton btnNewButton_1;
 	private JPanel panel_1;
 	private JButton btnNewButton_2;
+	UserService userService = new UserService(new DbService());
 
 	/**
 	 * Launch the application.
@@ -89,8 +94,13 @@ public class Devir extends JFrame {
 		JButton btnNewButton = new JButton("Listele");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String tmp = textField.getText();
-				
+				Integer tmp = Integer.parseInt(textField.getText());
+				System.out.println(tmp);
+				try {
+					System.out.println(userService.get(tmp).getFname());
+				} catch (SQLException ex) {
+					throw new RuntimeException(ex);
+				}
 				textField_1.setVisible(true);
 				lblNewLabel_1.setVisible(true);
 				scrollPane.setVisible(true);
