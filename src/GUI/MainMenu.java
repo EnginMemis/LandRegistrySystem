@@ -62,6 +62,9 @@ public class MainMenu extends JFrame {
 		btnNewButton.setBackground(Color.DARK_GRAY);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Devir d = new Devir();
+				d.setVisible(true);
+				setVisible(false);
 			}
 		});
 		

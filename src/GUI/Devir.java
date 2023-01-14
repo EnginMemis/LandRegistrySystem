@@ -91,6 +91,7 @@ public class Devir extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String tmp = textField.getText();
 				
+				
 				textField_1.setVisible(true);
 				lblNewLabel_1.setVisible(true);
 				scrollPane.setVisible(true);
