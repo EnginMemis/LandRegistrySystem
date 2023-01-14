@@ -1,57 +1,57 @@
 package Models;
 
 public class Property {
-    private Integer propertyId;
-    private String propertyAddress;
-    private String propertyType;
-    private double propertyValue;
-    private double propertyArea;
+    private Integer id;
+    private String address;
+    private String type;
+    private double value;
+    private double area;
 
-    public Property(Integer propertyId, String propertyAddress, String propertyType, double propertyValue, double propertyArea) {
-        this.propertyId = propertyId;
-        this.propertyAddress = propertyAddress;
-        this.propertyType = propertyType;
-        this.propertyValue = propertyValue;
-        this.propertyArea = propertyArea;
+    public Property(Integer id, String address, String type, double value, double area) {
+        this.id = id;
+        this.address = address;
+        this.type = type;
+        this.value = value;
+        this.area = area;
     }
 
-    public int getPropertyId() {
-        return propertyId;
+    public int getId() {
+        return id;
     }
 
-    public void setPropertyId(int propertyId) {
-        this.propertyId = propertyId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getPropertyAddress() {
-        return propertyAddress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setPropertyAddress(String propertyAddress) {
-        this.propertyAddress = propertyAddress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getPropertyType() {
-        return propertyType;
+    public String getType() {
+        return type;
     }
 
-    public void setPropertyType(String propertyType) {
-        this.propertyType = propertyType;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public double getPropertyValue() {
-        return propertyValue;
+    public double getValue() {
+        return value;
     }
 
-    public void setPropertyValue(double propertyValue) {
-        this.propertyValue = propertyValue;
+    public void setValue(double value) {
+        this.value = value;
     }
 
-    public double getPropertyArea() {
-        return propertyArea;
+    public double getArea() {
+        return area;
     }
 
-    public void setPropertyArea(double propertyArea) {
-        this.propertyArea = propertyArea;
+    public void setArea(double area) {
+        this.area = area;
     }
 }

@@ -1,13 +1,6 @@
-import Contracts.UpdateCustomer;
-import Contracts.UpdateLandRegistry;
-import Contracts.UpdateProperty;
-import Contracts.UpdatePropertyFeature;
-import Models.Customer;
-import Models.LandRegistry;
-import Models.Property;
-import Models.PropertyFeature;
+import Contracts.UpdateUser;
+import Models.*;
 import Services.*;
-
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -16,71 +9,71 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) {
-        CustomerService customerService = new CustomerService(new DbService());
+        UserService userService = new UserService(new DbService());
         PropertyService propertyService = new PropertyService(new DbService());
         LandRegistryService landRegistryService = new LandRegistryService(new DbService());
         PropertyFeatureService propertyFeatureService = new PropertyFeatureService(new DbService());
 
-
         try {
-/*            ArrayList<Customer> allCustomers = null;
-            Customer nisa = null;
-            Customer nisaUpdated = null;
-            Customer engin = null;
+            ArrayList<User> allUsers = null;
+            User nisa = null;
+            User nisaUpdated = null;
+            User engin = null;
 
-            allCustomers = customerService.getAll();
+            allUsers = userService.getAll();
 
-            if (allCustomers == null) {
+            if (allUsers == null) {
                 System.out.println("Kullanıcılar çekilemedi.");
             } else {
-                for (Customer customer : allCustomers) {
-                    System.out.println(customer.getName() + " - " + customer.getSurname() + " - " + customer.getSsn());
+                for (User user : allUsers) {
+                    System.out.println(user.getFname() + " - " + user.getLname() + " - " + user.getSsn());
                 }
             }
 
-            nisa = customerService.get(1010102);
-            if (nisa != null) {
-                System.out.println("Askm nisammm <3<3<3 " + nisa.getSsn());
+//            nisa = userService.get(1000003);
+//            if (nisa != null) {
+//                System.out.println("Askm nisammm <3<3<3 " + nisa.getSsn());
 
-                nisaUpdated = customerService.update(nisa.getSsn(),
-                        new UpdateCustomer(
-                                nisa.getName(),
-                                nisa.getSurname(),
-                                nisa.getBirthDate(),
-                                nisa.getGender(),
-                                nisa.getPhoneNumber(),
-                                nisa.getCustomerEmail(),
-                                "Anıl askmın kalbii <3<3",
-                                3000000));
-                if (nisaUpdated != null) {
-                    System.out.println(nisaUpdated.getSsn() + " - " + nisaUpdated.getCustomerAddress());
-                } else {
-                    System.out.println("Güncelleme işlemi başarısız :(");
-                }
-            } else {
-                System.out.println("Nisayı bulamadım bilader!!");
-            }
+//                nisaUpdated = userService.update(nisa.getSsn(),
+//                        new UpdateUser(
+//                                nisa.getFname(),
+//                                nisa.getLname(),
+//                                nisa.getBirthDate(),
+//                                nisa.getGender(),
+//                                nisa.getPhoneNumber(),
+//                                nisa.getEmail(),
+//                                "Anıl askmın kalbii <3<3",
+//                                3000000,
+//                                "Employee"));
+//                if (nisaUpdated != null) {
+//                    System.out.println(nisaUpdated.getSsn() + " - " + nisaUpdated.getAddress());
+//                } else {
+//                    System.out.println("Güncelleme işlemi başarısız :(");
+//                }
+//            } else {
+//                System.out.println("Nisayı bulamadım bilader!!");
+//            }
 
-            engin = customerService.create(new Customer(1010104, "Engin", "Memiş",
-                    new Date(1999, 10, 10), "Male", "05555555555",
-                    "engin.memis@example.com", "asdasdasdasd", 17000));
+//            engin = userService.create(new User("Engin", "Memişmemiş",
+//                    new Date(1999, 10, 10), "Male", "05555555555",
+//                    "engin.memis@example.com", "asdasdasdasd", 17000, "Customer"));
 
-            if (engin != null) {
-                System.out.println("Engin kardeşim: " + engin.getSsn());
-            } else {
-                System.out.println("Engini koyamadık :(");
-            }
+//            if (engin != null) {
+//                System.out.println("Engin kardeşim: " + engin.getSsn());
+//            } else {
+//                System.out.println("Engini koyamadık :(");
+//            }
 
-            customerService.delete(1010104);   //*/
+//            userService.delete(1000012);
 
 /*            ArrayList<Property> allProperty = null;
             Property property = null;
             System.out.println("Son durum:");
-            allCustomers = customerService.getAll();
-            if (allCustomers == null) {
+            allUsers = userService.getAll();
+            if (allUsers == null) {
                 System.out.println("Kullanıcılar çekilemedi.");
             } else {
-                for (Customer customer : allCustomers) {
+                for (Customer customer : allUsers) {
                     System.out.println(customer.getName() + " - " + customer.getSurname() + " - " + customer.getSsn());
                 }
             }
@@ -191,7 +184,7 @@ public class Main {
             propertyFeatureService.delete(63);
             propertyFeatureService.delete(65);  //  */
 
-            customerService.FinalizeConnections();
+            userService.FinalizeConnections();
             propertyService.FinalizeConnections();
             landRegistryService.FinalizeConnections();
             propertyFeatureService.FinalizeConnections();

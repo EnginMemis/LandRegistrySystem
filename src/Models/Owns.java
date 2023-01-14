@@ -2,15 +2,15 @@ package Models;
 
 public class Owns {
     private int ownerSsn;
-    private Customer owner;
+    private User owner;
     private int landRegistryId;
     private LandRegistry landRegistry;
 
-    public Owns(Customer owner, LandRegistry landRegistry) {
+    public Owns(User owner, LandRegistry landRegistry) {
         this.owner = owner;
         this.ownerSsn = owner.getSsn();
         this.landRegistry = landRegistry;
-        this.landRegistryId = landRegistry.getLandRegistryId();
+        this.landRegistryId = landRegistry.getId();
     }
 
     public int getOwnerSsn() {
@@ -21,11 +21,11 @@ public class Owns {
         this.ownerSsn = ownerSsn;
     }
 
-    public Customer getOwner() {
+    public User getOwner() {
         return owner;
     }
 
-    public void setOwner(Customer owner) {
+    public void setOwner(User owner) {
         this.owner = owner;
     }
 

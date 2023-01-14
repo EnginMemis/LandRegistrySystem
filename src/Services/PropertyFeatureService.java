@@ -29,7 +29,7 @@ public class PropertyFeatureService implements IPropertyFeatureService {
     public ArrayList<PropertyFeature> getAll() throws SQLException {
         ArrayList<PropertyFeature> response = new ArrayList<>();
 
-        ResultSet resultSet = dbService.ExecuteQuery("SELECT * FROM property_feature");
+        ResultSet resultSet = dbService.ExecuteQuery("SELECT * FROM property_feature ORDER BY feature_id");
         while (resultSet.next()){
             PropertyFeature propertyFeature = mapResult(resultSet);
             response.add(propertyFeature);

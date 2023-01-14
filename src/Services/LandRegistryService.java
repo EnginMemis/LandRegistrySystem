@@ -17,32 +17,39 @@ public class LandRegistryService implements ILandRegistryService {
     @Override
     public LandRegistry mapResult(ResultSet resultSet) throws SQLException {
         Integer landRegistryId = resultSet.getInt(1);
-        Integer propertyId = resultSet.getInt(2);
-        double price = resultSet.getDouble(3);
-        Date date = resultSet.getDate(4);
-        String propertyAddress = resultSet.getString(5);
-        String propertyType = resultSet.getString(6);
-        double propertyValue = resultSet.getDouble(7);
-        double propertyArea = resultSet.getDouble(8);
+        Integer buyerSsn = resultSet.getInt(2);
+        Integer sellerSsn = resultSet.getInt(3);
+        double price = resultSet.getDouble(4);
+        Date issuedAt = resultSet.getDate(5);
+        boolean isActive = resultSet.getBoolean(6);
+        Integer propertyId = resultSet.getInt(7);
+        String address = resultSet.getString(8);
+        String propertyType = resultSet.getString(9);
+        double propertyValue = resultSet.getDouble(10);
+        double propertyArea = resultSet.getDouble(11);
 
-        return new LandRegistry(landRegistryId,
+        return new LandRegistry(
+                landRegistryId,
                 propertyId,
                 new Property(
                         propertyId,
-                        propertyAddress,
+                        address,
                         propertyType,
                         propertyValue,
-                        propertyArea),
+                        propertyArea
+                ),
+                buyerSsn,
+                sellerSsn,
                 price,
-                date);
+                issuedAt,
+                isActive
+        );
     }
 
     @Override
     public ArrayList<LandRegistry> getAll() throws SQLException {
         ArrayList<LandRegistry> response = new ArrayList<>();
-        ResultSet resultSet = dbService.ExecuteQuery("SELECT land_registry_id, land_registry.property_id, " +
-                "land_registry.price, land_registry.date, address, property_type, property_value, area " +
-                "FROM land_registry INNER JOIN property ON land_registry.property_id = property.property_id");
+        ResultSet resultSet = dbService.ExecuteQuery("SELECT * FROM land_registry_property ORDER BY land_registry_id");
 
         while (resultSet.next()) {
             LandRegistry landRegistry = mapResult(resultSet);
@@ -56,10 +63,7 @@ public class LandRegistryService implements ILandRegistryService {
     public LandRegistry get(Integer id) throws SQLException {
         Connection connection = this.dbService.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(
-                "SELECT land_registry_id, land_registry.property_id, " +
-                        "land_registry.price, land_registry.date, address, property_type, property_value, area " +
-                        "FROM land_registry INNER JOIN property ON land_registry.property_id = property.property_id" +
-                        " WHERE land_registry_id = ?");
+                "SELECT * FROM land_registry_property WHERE land_registry_id = ?");
         preparedStatement.setInt(1, id);
 
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -73,13 +77,16 @@ public class LandRegistryService implements ILandRegistryService {
     @Override
     public LandRegistry create(LandRegistry landRegistry) throws SQLException {
         Connection connection = this.dbService.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO land_registry" +
-                " VALUES(?,?,?,?)");
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "INSERT INTO land_registry(property_id, buyer_ssn, seller_ssn, price, " +
+                        "issued_at, is_active) VALUES(?,?,?,?,?,?)");
 
-        preparedStatement.setInt(1, landRegistry.getLandRegistryId());
-        preparedStatement.setInt(2, landRegistry.getPropertyId());
-        preparedStatement.setDouble(3, landRegistry.getPrice());
-        preparedStatement.setDate(4, landRegistry.getDate());
+        preparedStatement.setInt(1, landRegistry.getPropertyId());
+        preparedStatement.setInt(2, landRegistry.getBuyerSsn());
+        preparedStatement.setInt(3, landRegistry.getSellerSsn());
+        preparedStatement.setDouble(4, landRegistry.getPrice());
+        preparedStatement.setDate(5, landRegistry.getIssuedAt());
+        preparedStatement.setBoolean(6, landRegistry.isActive());
 
         preparedStatement.executeUpdate();
 
@@ -89,23 +96,34 @@ public class LandRegistryService implements ILandRegistryService {
     @Override
     public LandRegistry update(Integer id, UpdateLandRegistry newLandRegistry) throws SQLException {
         Connection connection = this.dbService.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE land_registry" +
-                " SET property_id = ?, price = ?, date = ? WHERE property_id = ?");
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "UPDATE land_registry SET property_id = ?, buyer_ssn = ?, seller_ssn = ?," +
+                        "price = ?, issued_at = ?, is_active = ? WHERE property_id = ?");
+
         preparedStatement.setInt(1, newLandRegistry.propertyId());
-        preparedStatement.setDouble(2, newLandRegistry.price());
-        preparedStatement.setDate(3, newLandRegistry.date());
-        preparedStatement.setInt(4, id);
+        preparedStatement.setInt(2, newLandRegistry.buyerSsn());
+        preparedStatement.setInt(3, newLandRegistry.sellerSsn());
+        preparedStatement.setDouble(4, newLandRegistry.price());
+        preparedStatement.setDate(5, newLandRegistry.issuedAt());
+        preparedStatement.setBoolean(6, newLandRegistry.isActive());
 
         preparedStatement.executeUpdate();
 
-        return new LandRegistry(id, newLandRegistry.propertyId(), newLandRegistry.price(), newLandRegistry.date());
+        return new LandRegistry(
+                id,
+                newLandRegistry.propertyId(),
+                newLandRegistry.buyerSsn(),
+                newLandRegistry.sellerSsn(),
+                newLandRegistry.price(),
+                newLandRegistry.issuedAt(),
+                newLandRegistry.isActive());
     }
 
     @Override
     public void delete(Integer id) throws SQLException {
         Connection connection = this.dbService.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM land_registry " +
-                "WHERE land_registry_id = ?");
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "DELETE FROM land_registry WHERE land_registry_id = ?");
         preparedStatement.setInt(1, id);
 
         preparedStatement.executeUpdate();

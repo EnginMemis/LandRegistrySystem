@@ -4,7 +4,10 @@ import java.sql.Date;
 
 public record UpdateLandRegistry(
         Integer propertyId,
+        Integer buyerSsn,
+        Integer sellerSsn,
         double price,
-        Date date
+        Date issuedAt,
+        boolean isActive
 ) {
 }
