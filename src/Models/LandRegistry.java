@@ -10,15 +10,16 @@ public class LandRegistry {
     private User buyer;
     private Integer sellerSsn;
     private User seller;
-    private double price;
+    private Integer price;
     private Date issuedAt;
     private boolean isActive;
+    private String warning;
 
     public LandRegistry(Integer id,
                         Integer propertyId,
                         Integer buyerSsn,
                         Integer sellerSsn,
-                        Double price,
+                        Integer price,
                         Date issuedAt,
                         boolean isActive) {
         this.id = id;
@@ -28,6 +29,7 @@ public class LandRegistry {
         this.price = price;
         this.issuedAt = issuedAt;
         this.isActive = isActive;
+        this.warning = null;
     }
 
     public LandRegistry(Integer id,
@@ -35,7 +37,7 @@ public class LandRegistry {
                         Property property,
                         Integer buyerSsn,
                         Integer sellerSsn,
-                        double price,
+                        Integer price,
                         Date issuedAt,
                         boolean isActive) {
         this.id = id;
@@ -46,6 +48,7 @@ public class LandRegistry {
         this.price = price;
         this.issuedAt = issuedAt;
         this.isActive = isActive;
+        this.warning = null;
     }
 
     public LandRegistry(Integer id,
@@ -55,7 +58,7 @@ public class LandRegistry {
                         User buyer,
                         Integer sellerSsn,
                         User seller,
-                        double price,
+                        Integer price,
                         Date issuedAt) {
         this.id = id;
         this.propertyId = propertyId;
@@ -66,6 +69,7 @@ public class LandRegistry {
         this.seller = seller;
         this.price = price;
         this.issuedAt = issuedAt;
+        this.warning = null;
     }
 
     public int getId() {
@@ -132,11 +136,11 @@ public class LandRegistry {
         isActive = active;
     }
 
-    public double getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
@@ -146,5 +150,12 @@ public class LandRegistry {
 
     public void setIssuedAt(Date issuedAt) {
         this.issuedAt = issuedAt;
+    }
+
+    public void setWarning(String warning){
+        this.warning = warning;
+    }
+    public String getWarning(){
+        return warning;
     }
 }

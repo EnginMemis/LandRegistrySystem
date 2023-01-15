@@ -20,7 +20,7 @@ CREATE TABLE property (
 	property_id NUMERIC PRIMARY KEY NOT NULL DEFAULT nextval('property_id_seq'),
 	address VARCHAR(256) NOT NULL,
 	property_type VARCHAR(64) NOT NULL,
-	property_value NUMERIC(15,2),
+	property_value NUMERIC,
 	area NUMERIC(6,1)
 );
 
@@ -67,7 +67,8 @@ DECLARE
 	seller_wallet NUMERIC(15,2);
 BEGIN
     -- Buyer and seller cannot be the same person
-    IF buyer_ssn = seller_ssn THEN
+    IF new.buyer_ssn = new.seller_ssn THEN
+        RAISE WARNING 'Alıcı ve Satıcı Aynı Kişi Olamaz!';
         RETURN NULL;
     END IF;
 
@@ -77,6 +78,7 @@ BEGIN
 	
 	-- Check if both buyer and seller have enough money for 2.5% cut
 	IF buyer_wallet < new.price * 1.025 THEN
+        RAISE WARNING 'Alıcının Bakiyesi Yetersiz!';
 		RETURN NULL;
 	END IF;
 	

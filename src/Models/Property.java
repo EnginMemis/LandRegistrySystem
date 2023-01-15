@@ -4,10 +4,10 @@ public class Property {
     private Integer id;
     private String address;
     private String type;
-    private double value;
+    private Integer value;
     private double area;
 
-    public Property(Integer id, String address, String type, double value, double area) {
+    public Property(Integer id, String address, String type, Integer value, double area) {
         this.id = id;
         this.address = address;
         this.type = type;
@@ -39,11 +39,11 @@ public class Property {
         this.type = type;
     }
 
-    public double getValue() {
+    public Integer getValue() {
         return value;
     }
 
-    public void setValue(double value) {
+    public void setValue(Integer value) {
         this.value = value;
     }
 

@@ -20,7 +20,7 @@ public class PropertyService implements IPropertyService {
         int propertyId = resultSet.getInt("property_id");
         String propertyAddress = resultSet.getString("address");
         String propertyType = resultSet.getString("property_type");
-        double propertyValue = resultSet.getDouble("property_value");
+        Integer propertyValue = resultSet.getInt("property_value");
         double propertyArea = resultSet.getDouble("area");
 
         return new Property(propertyId, propertyAddress, propertyType, propertyValue, propertyArea);
@@ -58,7 +58,7 @@ public class PropertyService implements IPropertyService {
 
         preparedStatement.setString(1, property.getAddress());
         preparedStatement.setString(2, property.getType());
-        preparedStatement.setDouble(3, property.getValue());
+        preparedStatement.setInt(3, property.getValue());
         preparedStatement.setDouble(4, property.getArea());
 
         preparedStatement.executeUpdate();
@@ -72,7 +72,7 @@ public class PropertyService implements IPropertyService {
         preparedStatement.setString(1, newProperty.address());
         preparedStatement.setString(2, newProperty.type());
         preparedStatement.setDouble(3, newProperty.area());
-        preparedStatement.setDouble(4, newProperty.value());
+        preparedStatement.setInt(4, newProperty.value());
         preparedStatement.setInt(5, id);
 
         preparedStatement.executeUpdate();
@@ -80,8 +80,8 @@ public class PropertyService implements IPropertyService {
         return new Property(id,
                 newProperty.address(),
                 newProperty.type(),
-                newProperty.area(),
-                newProperty.value());
+                newProperty.value(),
+                newProperty.area());
     }
 
     public void delete(Integer id) throws SQLException{

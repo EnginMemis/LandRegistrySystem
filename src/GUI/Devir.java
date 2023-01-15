@@ -123,7 +123,7 @@ public class Devir extends JFrame {
 								property.getId().toString(),
 								property.getAddress(),
 								property.getType(),
-								String.format("%.3f", property.getValue()),
+								property.getValue().toString(),
 								String.format("%.2f", property.getArea())};
 						i++;
 					}
@@ -176,20 +176,22 @@ public class Devir extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					LandRegistry land;
 					Integer tmp2 = Integer.parseInt(textField_1.getText());
-					System.out.println(person.getSsn());
-					System.out.println(tmp2);
 					int ID = -1;
 					int i = table.getSelectedRow();
-					if(i != -1 && !tmp2.equals(person.getSsn()) && userService.get(tmp2) != null) {
-						ArrayList<LandRegistry> land = landRegistryService.getLands(person.getSsn());
-						for(LandRegistry landRegistry : land){
+					if(i != -1  && userService.get(tmp2) != null) {
+						ArrayList<LandRegistry> landList = landRegistryService.getLands(person.getSsn());
+						for(LandRegistry landRegistry : landList){
 							if(Integer.parseInt(veri[i][0]) == landRegistry.getPropertyId() && landRegistry.isActive()){
 								ID = landRegistry.getPropertyId();
 							}
 						}
-						landRegistryService.create(new LandRegistry(null, ID, tmp2, person.getSsn(),
-								42000.2, null, true));
+						land = landRegistryService.create(new LandRegistry(null, ID, tmp2, person.getSsn(),
+								Integer.parseInt(veri[i][3]), null, true));
+						if(land.getWarning() != null){
+							JOptionPane.showMessageDialog(null, land.getWarning());
+						}
 						textField.setText("");
 						textField_1.setText("");
 						scrollPane.setVisible(false);
@@ -197,13 +199,11 @@ public class Devir extends JFrame {
 					else if(i == -1){
 						JOptionPane.showMessageDialog(null, "Tapu seçilmedi !!!");
 					}
-					else if(tmp2.equals(person.getSsn())){
-						JOptionPane.showMessageDialog(null, "Satıcı ve Alıcı Aynı Kişi Olamaz !!!");
-					}
 					else{
 						JOptionPane.showMessageDialog(null, "Alıcı Kişisi Bulunamadi !!!");
 					}
 				} catch(Exception e1){
+					e1.printStackTrace();
 					JOptionPane.showMessageDialog(null, "Kullanıcı bulunamadı !!!");
 				}
 		}});

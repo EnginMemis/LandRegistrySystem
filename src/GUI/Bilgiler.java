@@ -1,5 +1,13 @@
 package GUI;
 
+import Models.LandRegistry;
+import Models.Property;
+import Models.User;
+import Services.DbService;
+import Services.LandRegistryService;
+import Services.PropertyService;
+import Services.UserService;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -19,12 +27,17 @@ import javax.swing.JTable;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Bilgiler extends JFrame {
 	String[][] veri;
 	String[] baslik;
 	private JPanel contentPane;
 	private JTable table;
+	LandRegistryService landRegistryService = new LandRegistryService(new DbService());
+	UserService userService = new UserService(new DbService());
+	PropertyService propertyService = new PropertyService(new DbService());
 	
 
 	/**
@@ -73,21 +86,57 @@ public class Bilgiler extends JFrame {
 		JButton btnNewButton = new JButton("Listele");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 System.out.println(comboBox.getSelectedItem().toString());
-				 int size;
+				 int i = 0;
 				if(comboBox.getSelectedItem().toString().equals("Tapular")) {
-					String[] baslik = { "ID", "Property_ID", "Buyer SSN", "Seller SSN", "Price", "Issued at"};
-					size = 6;
-					
+					ArrayList<LandRegistry> landList = new ArrayList<>();
+					baslik = new String[]{ "ID", "Property_ID", "Buyer SSN", "Seller SSN", "Price", "Issued at"};
+					try {
+						landList = landRegistryService.getAll();
+						veri = new String[landList.size()][6];
+						for(LandRegistry land : landList){
+							if(land.isActive()){
+								veri[i] = new String[] {String.format("%d",land.getId()),
+										String.format("%d",land.getPropertyId()), land.getBuyerSsn().toString(),
+										land.getSellerSsn().toString(), land.getPrice().toString(), land.getIssuedAt().toString()};
+								i++;
+							}
+						}
+					} catch (SQLException ex) {
+
+					}
 				}
 				else if(comboBox.getSelectedItem().toString().equals("Mulkler")) {
-					String[] baslik = { "ID", "Address", "Land Type", "Value", "Area"};
-					size = 6;
-					veri[1] = new String[] {"a","b","c","d","e"};
+					ArrayList<Property> propertyList = new ArrayList<>();
+					baslik = new String[]{ "ID", "Address", "Land Type", "Value", "Area"};
+					i = 0;
+					try {
+						propertyList = propertyService.getAll();
+						veri = new String[propertyList.size()][5];
+						for(Property p : propertyList){
+							veri[i] = new String[] {p.getId().toString(), p.getAddress(),
+													p.getType(), p.getValue().toString(), String.valueOf(p.getArea())};
+							i++;
+						}
+					} catch (SQLException ex) {
+
+					}
 				}
 				else {
-					String[] baslik = { "SSN", "Name", "Surname", "Birth Date", "Gender","Phone Number","E-mail", "Address", "Wallet"};
-					size = 6;
+					ArrayList<User> userList = new ArrayList<>();
+					baslik = new String[]{ "SSN", "Name", "Surname", "Gender","Phone Number","E-mail", "Address", "Wallet"};
+					i = 0;
+					try {
+						userList = userService.getAll();
+						veri = new String[userList.size()][9];
+						for(User u : userList){
+							veri[i] = new String[]{u.getSsn().toString(), u.getFname(), u.getLname(),
+													u.getGender(), u.getPhoneNumber(), u.getEmail(), u.getAddress(),
+									String.valueOf(u.getWallet())};
+							i++;
+						}
+					} catch (SQLException ex) {
+
+					}
 				}
 				DefaultTableModel tablemodel = new DefaultTableModel(veri,baslik) {
 					@Override
@@ -95,7 +144,6 @@ public class Bilgiler extends JFrame {
 						return false;
 					}
 				};
-				veri = new String[size][];
 				table = new JTable(tablemodel);
 				table.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
 				scrollPane.setViewportView(table);

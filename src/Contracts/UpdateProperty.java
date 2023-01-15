@@ -3,7 +3,7 @@ package Contracts;
 public record UpdateProperty(
             String address,
             String type,
-            double value,
+            Integer value,
             double area ) {
 }
 

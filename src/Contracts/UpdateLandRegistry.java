@@ -6,7 +6,7 @@ public record UpdateLandRegistry(
         Integer propertyId,
         Integer buyerSsn,
         Integer sellerSsn,
-        double price,
+        Integer price,
         Date issuedAt,
         boolean isActive
 ) {
