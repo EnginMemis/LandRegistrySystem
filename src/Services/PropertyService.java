@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PropertyService implements IPropertyService {
-    private DbService dbService;
+    private final DbService dbService;
 
     public PropertyService(DbService dbService){
         this.dbService = dbService;

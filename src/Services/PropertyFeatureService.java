@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PropertyFeatureService implements IPropertyFeatureService {
-    private DbService dbService;
+    private final DbService dbService;
 
     public PropertyFeatureService(DbService dbService) {
         this.dbService = dbService;

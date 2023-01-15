@@ -1,8 +1,6 @@
-import Contracts.UpdateUser;
 import Models.*;
 import Services.*;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -97,8 +95,8 @@ public class Main {
                 System.out.println("Binalar Cekilemedi!");
             }  //  */
 
-            LandRegistry landRegistry = null;
-            ArrayList<LandRegistry> landRegistries = null;
+//            LandRegistry landRegistry = null;
+            ArrayList<LandRegistry> landRegistries;
             landRegistries = landRegistryService.getAll();
 
             for (LandRegistry lr : landRegistries) {

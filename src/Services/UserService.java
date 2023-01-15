@@ -8,7 +8,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 public class UserService implements IUserService {
-    private DbService dbService;
+    private final DbService dbService;
 
     public UserService(DbService dbService) {
         this.dbService = dbService;

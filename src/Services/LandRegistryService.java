@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class LandRegistryService implements ILandRegistryService {
-    private DbService dbService;
+    private final DbService dbService;
 
     public LandRegistryService(DbService dbService) {
         this.dbService = dbService;
