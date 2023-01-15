@@ -17,11 +17,11 @@ public class PropertyService implements IPropertyService {
     }
 
     public Property mapResult(ResultSet resultSet) throws SQLException {
-        int propertyId = resultSet.getInt(1);
-        String propertyAddress = resultSet.getString(2);
-        String propertyType = resultSet.getString(3);
-        double propertyValue = resultSet.getDouble(4);
-        double propertyArea = resultSet.getDouble(5);
+        int propertyId = resultSet.getInt("property_id");
+        String propertyAddress = resultSet.getString("address");
+        String propertyType = resultSet.getString("property_type");
+        double propertyValue = resultSet.getDouble("property_value");
+        double propertyArea = resultSet.getDouble("area");
 
         return new Property(propertyId, propertyAddress, propertyType, propertyValue, propertyArea);
     }

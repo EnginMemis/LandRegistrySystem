@@ -15,20 +15,20 @@ public class Main {
         PropertyFeatureService propertyFeatureService = new PropertyFeatureService(new DbService());
 
         try {
-            ArrayList<User> allUsers = null;
-            User nisa = null;
-            User nisaUpdated = null;
-            User engin = null;
-
-            allUsers = userService.getAll();
-
-            if (allUsers == null) {
-                System.out.println("Kullanıcılar çekilemedi.");
-            } else {
-                for (User user : allUsers) {
-                    System.out.println(user.getFname() + " - " + user.getLname() + " - " + user.getSsn());
-                }
-            }
+//            ArrayList<User> allUsers = null;
+//            User nisa = null;
+//            User nisaUpdated = null;
+//            User engin = null;
+//
+//            allUsers = userService.getAll();
+//
+//            if (allUsers == null) {
+//                System.out.println("Kullanıcılar çekilemedi.");
+//            } else {
+//                for (User user : allUsers) {
+//                    System.out.println(user.getFname() + " - " + user.getLname() + " - " + user.getSsn());
+//                }
+//            }
 
 //            nisa = userService.get(1000003);
 //            if (nisa != null) {
@@ -97,17 +97,17 @@ public class Main {
                 System.out.println("Binalar Cekilemedi!");
             }  //  */
 
-/*            LandRegistry landRegistry = null;
+            LandRegistry landRegistry = null;
             ArrayList<LandRegistry> landRegistries = null;
             landRegistries = landRegistryService.getAll();
 
             for (LandRegistry lr : landRegistries) {
-                System.out.println(lr.getLandRegistryId() + "-" + lr.getPropertyId()
-                        + "-" + lr.getPrice() + "-" + lr.getDate());
-                System.out.println(lr.getProperty().getPropertyAddress() + "-" + lr.getProperty().getPropertyType());
+                System.out.println(lr.getId() + "-" + lr.getPropertyId()
+                        + "-" + lr.getPrice() + "-" + lr.getIssuedAt());
+                System.out.println(lr.getProperty().getAddress() + "-" + lr.getProperty().getType());
             }
 
-            System.out.println("----");
+/*            System.out.println("----");
             landRegistry = landRegistryService.get(1);
 
             if (landRegistry != null) {

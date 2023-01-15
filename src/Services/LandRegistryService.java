@@ -16,17 +16,17 @@ public class LandRegistryService implements ILandRegistryService {
 
     @Override
     public LandRegistry mapResult(ResultSet resultSet) throws SQLException {
-        Integer landRegistryId = resultSet.getInt(1);
-        Integer buyerSsn = resultSet.getInt(2);
-        Integer sellerSsn = resultSet.getInt(3);
-        double price = resultSet.getDouble(4);
-        Date issuedAt = resultSet.getDate(5);
-        boolean isActive = resultSet.getBoolean(6);
-        Integer propertyId = resultSet.getInt(7);
-        String address = resultSet.getString(8);
-        String propertyType = resultSet.getString(9);
-        double propertyValue = resultSet.getDouble(10);
-        double propertyArea = resultSet.getDouble(11);
+        Integer landRegistryId = resultSet.getInt("land_registry_id");
+        Integer buyerSsn = resultSet.getInt("buyer_ssn");
+        Integer sellerSsn = resultSet.getInt("seller_ssn");
+        double price = resultSet.getDouble("price");
+        Date issuedAt = resultSet.getDate("issued_at");
+        boolean isActive = resultSet.getBoolean("is_active");
+        Integer propertyId = resultSet.getInt("property_id");
+        String address = resultSet.getString("address");
+        String propertyType = resultSet.getString("property_type");
+        double propertyValue = resultSet.getDouble("property_value");
+        double propertyArea = resultSet.getDouble("area");
 
         return new LandRegistry(
                 landRegistryId,

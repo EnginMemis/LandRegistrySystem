@@ -15,16 +15,16 @@ public class UserService implements IUserService {
     }
 
     public User mapResult(ResultSet resultSet) throws SQLException {
-        int ssn = resultSet.getInt(1);
-        String name = resultSet.getString(2);
-        String surname = resultSet.getString(3);
-        Date birthDate = resultSet.getDate(4);
-        String gender = resultSet.getString(5);
-        String phoneNumber = resultSet.getString(6);
-        String email = resultSet.getString(7);
-        String address = resultSet.getString(8);
-        double wallet = resultSet.getDouble(9);
-        String role = resultSet.getString(10);
+        int ssn = resultSet.getInt("ssn");
+        String name = resultSet.getString("fname");
+        String surname = resultSet.getString("lname");
+        Date birthDate = resultSet.getDate("birth_date");
+        String gender = resultSet.getString("gender");
+        String phoneNumber = resultSet.getString("phone_number");
+        String email = resultSet.getString("email");
+        String address = resultSet.getString("address");
+        double wallet = resultSet.getDouble("wallet");
+        String role = resultSet.getString("user_role");
 
         return new User(ssn, name, surname, birthDate, gender, phoneNumber, email, address, wallet, role);
     }

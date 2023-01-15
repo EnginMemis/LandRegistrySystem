@@ -18,10 +18,11 @@ public class PropertyFeatureService implements IPropertyFeatureService {
     }
     @Override
     public PropertyFeature mapResult(ResultSet resultSet) throws SQLException {
-        int featureId = resultSet.getInt(1);
-        int propertyId = resultSet.getInt(2);
-        String title = resultSet.getString(3);
-        String value = resultSet.getString(4);
+        int featureId = resultSet.getInt("feature_id");
+        int propertyId = resultSet.getInt("property_id");
+        String title = resultSet.getString("title");
+        String value = resultSet.getString("value");
+
         return new PropertyFeature(featureId, propertyId, title, value);
     }
 

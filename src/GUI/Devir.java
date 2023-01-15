@@ -119,8 +119,12 @@ public class Devir extends JFrame {
 					veri = new String[landList.size()][5];
 					for(LandRegistry landRegistry : landList){
 						Property property = propertyService.get(landRegistry.getPropertyId());
-						veri[i] = new String[]{property.getId().toString(), property.getAddress(),
-								property.getType(), String.format("%.3f", property.getValue()), String.format("%.2f", property.getArea())};
+						veri[i] = new String[] {
+								property.getId().toString(),
+								property.getAddress(),
+								property.getType(),
+								String.format("%.3f", property.getValue()),
+								String.format("%.2f", property.getArea())};
 						i++;
 					}
 					DefaultTableModel tablemodel = new DefaultTableModel(veri,baslik) {
