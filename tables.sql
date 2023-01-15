@@ -66,6 +66,11 @@ DECLARE
 	buyer_wallet NUMERIC(15,2);
 	seller_wallet NUMERIC(15,2);
 BEGIN
+    -- Buyer and seller cannot be the same person
+    IF buyer_ssn = seller_ssn THEN
+        RETURN NULL;
+    END IF;
+    
 	-- Get wallets of buyer and seller into variables
 	SELECT wallet INTO buyer_wallet FROM users WHERE ssn = new.buyer_ssn;
 	SELECT wallet INTO seller_wallet FROM users WHERE ssn = new.seller_ssn;
