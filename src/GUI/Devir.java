@@ -177,9 +177,11 @@ public class Devir extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Integer tmp2 = Integer.parseInt(textField_1.getText());
+					System.out.println(person.getSsn());
+					System.out.println(tmp2);
 					int ID = -1;
 					int i = table.getSelectedRow();
-					if(i != -1) {
+					if(i != -1 && !tmp2.equals(person.getSsn()) && userService.get(tmp2) != null) {
 						ArrayList<LandRegistry> land = landRegistryService.getLands(person.getSsn());
 						for(LandRegistry landRegistry : land){
 							if(Integer.parseInt(veri[i][0]) == landRegistry.getPropertyId() && landRegistry.isActive()){
@@ -188,12 +190,21 @@ public class Devir extends JFrame {
 						}
 						landRegistryService.create(new LandRegistry(null, ID, tmp2, person.getSsn(),
 								42000.2, null, true));
+						textField.setText("");
+						textField_1.setText("");
+						scrollPane.setVisible(false);
 					}
-					else {
+					else if(i == -1){
 						JOptionPane.showMessageDialog(null, "Tapu seçilmedi !!!");
 					}
+					else if(tmp2.equals(person.getSsn())){
+						JOptionPane.showMessageDialog(null, "Satıcı ve Alıcı Aynı Kişi Olamaz !!!");
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "Alıcı Kişisi Bulunamadi !!!");
+					}
 				} catch(Exception e1){
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Kullanıcı bulunamadı !!!");
 				}
 		}});
 		btnNewButton_1.setForeground(Color.WHITE);
