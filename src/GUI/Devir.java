@@ -75,7 +75,7 @@ public class Devir extends JFrame {
 	public Devir() {
 		setBackground(Color.LIGHT_GRAY);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 935, 712);
+		setBounds(500, 170, 940, 720);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -231,7 +231,7 @@ public class Devir extends JFrame {
 		
 		lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setIcon(new ImageIcon("2.jpg"));
-		lblNewLabel_2.setBounds(0, 0, 919, 673);
+		lblNewLabel_2.setBounds(0, 0, 924, 681);
 		contentPane.add(lblNewLabel_2);
 	}
 }

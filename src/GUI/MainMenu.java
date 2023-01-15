@@ -41,7 +41,7 @@ public class MainMenu extends JFrame {
 		ImageIcon bg = new ImageIcon("1.png");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(300, 300, 940, 720);
+		setBounds(500, 170, 940, 720);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -93,7 +93,7 @@ public class MainMenu extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btnVeriTabanGncelle = new JButton("<html>" + "Veri Tabanı" + "<br>" +"Güncelle" + "</html>");
+		JButton btnVeriTabanGncelle = new JButton("Bakiye Ekleme");
 		btnVeriTabanGncelle.setForeground(Color.WHITE);
 		btnVeriTabanGncelle.setFont(new Font("Bodoni MT", Font.PLAIN, 22));
 		btnVeriTabanGncelle.setBounds(2, 2, 180, 94);
