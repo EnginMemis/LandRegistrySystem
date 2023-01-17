@@ -117,6 +117,35 @@ public class UserService implements IUserService {
                 newUser.role());
     }
 
+    public ArrayList<User> listCustomer() throws SQLException{
+        ArrayList<User> list = new ArrayList<>();
+        Connection connection = this.dbService.getConnection();
+
+        PreparedStatement preparedStatement =
+                connection.prepareStatement("SELECT * FROM users EXCEPT (SELECT * FROM users WHERE user_role = 'Employee')");
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()){
+            User user = mapResult(resultSet);
+            list.add(user);
+        }
+        return list;
+    }
+    public ArrayList<User> listEmployee() throws SQLException{
+        ArrayList<User> list = new ArrayList<>();
+        Connection connection = this.dbService.getConnection();
+
+        PreparedStatement preparedStatement =
+                connection.prepareStatement("SELECT * FROM users EXCEPT (SELECT * FROM users WHERE user_role = 'Customer')");
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()){
+            User user = mapResult(resultSet);
+            list.add(user);
+        }
+        return list;
+    }
+
     @Override
     public void delete(Integer ssn) throws SQLException {
         Connection connection = this.dbService.getConnection();
