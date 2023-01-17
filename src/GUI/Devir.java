@@ -246,6 +246,7 @@ public class Devir extends JFrame {
 				MainMenu main = new MainMenu();
 				main.setVisible(true);
 				dispose();
+				
 			}
 		});
 		btnNewButton_3.setForeground(Color.WHITE);

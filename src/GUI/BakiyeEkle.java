@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
-import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.JTextField;
 import java.awt.Color;
@@ -15,10 +14,11 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Sil extends JFrame {
+public class BakiyeEkle extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
+	private JTextField textField_1;
 
 	/**
 	 * Launch the application.
@@ -27,7 +27,7 @@ public class Sil extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Sil frame = new Sil("at");
+					BakiyeEkle frame = new BakiyeEkle();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,45 +39,55 @@ public class Sil extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Sil(String s) {
+	public BakiyeEkle() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 400, 270);
+		setBounds(100, 100, 400, 317);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel(s);
-		lblNewLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
-		lblNewLabel.setBounds(47, 63, 135, 36);
-		contentPane.add(lblNewLabel);
+		JLabel lblKullancSsn = new JLabel("Kullanıcı SSN :");
+		lblKullancSsn.setFont(new Font("Verdana", Font.PLAIN, 18));
+		lblKullancSsn.setBounds(47, 62, 135, 36);
+		contentPane.add(lblKullancSsn);
 		
 		textField = new JTextField();
 		textField.setColumns(10);
-		textField.setBounds(192, 63, 135, 36);
+		textField.setBounds(192, 62, 135, 36);
 		contentPane.add(textField);
+		
+		JLabel lblEklenecekMiktar = new JLabel("Miktar :");
+		lblEklenecekMiktar.setFont(new Font("Verdana", Font.PLAIN, 18));
+		lblEklenecekMiktar.setBounds(47, 117, 135, 36);
+		contentPane.add(lblEklenecekMiktar);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(192, 117, 135, 36);
+		contentPane.add(textField_1);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setLayout(null);
 		panel_2.setForeground(Color.BLACK);
 		panel_2.setBackground(Color.BLACK);
-		panel_2.setBounds(47, 132, 135, 36);
+		panel_2.setBounds(47, 179, 135, 36);
 		contentPane.add(panel_2);
 		
-		JButton btnSil = new JButton("Sil");
-		btnSil.setForeground(Color.WHITE);
-		btnSil.setFont(new Font("Bodoni MT", Font.PLAIN, 22));
-		btnSil.setFocusable(false);
-		btnSil.setBackground(Color.DARK_GRAY);
-		btnSil.setBounds(2, 2, 131, 32);
-		panel_2.add(btnSil);
+		JButton btnEkle = new JButton("Ekle");
+		btnEkle.setForeground(Color.WHITE);
+		btnEkle.setFont(new Font("Bodoni MT", Font.PLAIN, 22));
+		btnEkle.setFocusable(false);
+		btnEkle.setBackground(Color.DARK_GRAY);
+		btnEkle.setBounds(2, 2, 131, 32);
+		panel_2.add(btnEkle);
 		
 		JPanel panel_2_1 = new JPanel();
 		panel_2_1.setLayout(null);
 		panel_2_1.setForeground(Color.BLACK);
 		panel_2_1.setBackground(Color.BLACK);
-		panel_2_1.setBounds(192, 132, 135, 36);
+		panel_2_1.setBounds(192, 179, 135, 36);
 		contentPane.add(panel_2_1);
 		
 		JButton btnGeriDn = new JButton("Geri dön");
@@ -95,4 +105,5 @@ public class Sil extends JFrame {
 		btnGeriDn.setBounds(2, 2, 131, 32);
 		panel_2_1.add(btnGeriDn);
 	}
+
 }
