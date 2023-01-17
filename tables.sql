@@ -57,6 +57,50 @@ CREATE VIEW land_registry_property AS
 	SELECT land_registry_id, buyer_ssn, seller_ssn, price, issued_at, is_active, property.property_id, address, property_type, property_value, area
 	FROM land_registry INNER JOIN property ON land_registry.property_id = property.property_id;
 
+
+CREATE OR REPLACE FUNCTION insertUser(first_name users.fname%type, last_name users.lname%type, userGender users.gender%type,phone users.phone_number%type, mail users.email%type, userAddress users.address%type, usrRole users.user_role%type)
+    RETURNS VOID AS $$
+DECLARE
+    cur CURSOR FOR SELECT fname, lname FROM users;
+BEGIN
+    FOR row IN cur LOOP
+        IF row.fname = first_name AND row.lname = last_name THEN
+            RAISE WARNING 'İsim Soyisim Aynı Olan Kullanıcı Bulunmaktadır!';
+            RETURN;
+        END IF;
+    END LOOP;
+    INSERT INTO users (fname, lname, birth_date, gender, phone_number, email, address, user_role) VALUES (first_name, last_name, now(), userGender, phone, mail, userAddress, usrRole);
+END;
+$$ LANGUAGE 'plpgsql';
+
+CREATE OR REPLACE FUNCTION insertProperty(pAddress property.address%type, pType property.property_type%type, pValue property.property_value%type, pArea property.area%type)
+    RETURNS VOID AS $$
+BEGIN
+    INSERT INTO property (address, property_type, property_value, area) VALUES(pAddress, pType, pValue, pArea);
+END;
+$$ LANGUAGE 'plpgsql';
+
+CREATE OR REPLACE FUNCTION deleteUser(userSSN users.ssn%type)
+    RETURNS VOID AS $$
+BEGIN
+    DELETE FROM users WHERE ssn = userSSN;
+END;
+$$ LANGUAGE 'plpgsql';
+
+CREATE OR REPLACE FUNCTION deleteProperty(propertyId property.property_id%type)
+    RETURNS VOID AS $$
+BEGIN
+    DELETE FROM property WHERE property_id = propertyId;
+END;
+$$ LANGUAGE 'plpgsql';
+
+CREATE OR REPLACE FUNCTION updateBalance(userSSN users.ssn%type, balance users.wallet%type)
+    RETURNS VOID AS $$
+BEGIN
+    UPDATE users SET wallet = wallet + balance WHERE ssn = userSSN;
+END;
+$$ LANGUAGE 'plpgsql';
+
 CREATE OR REPLACE FUNCTION sell_property()
 RETURNS TRIGGER AS $$
 DECLARE
