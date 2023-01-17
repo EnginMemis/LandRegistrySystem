@@ -64,11 +64,11 @@ DECLARE
     cur CURSOR FOR SELECT fname, lname FROM users;
 BEGIN
     FOR row IN cur LOOP
-            IF row.fname = first_name AND row.lname = last_name THEN
-                RAISE WARNING 'İsim Soyisim Aynı Olan Kullanıcı Bulunmaktadır!';
-                RETURN;
-            END IF;
-        END LOOP;
+        IF row.fname = first_name AND row.lname = last_name THEN
+            RAISE WARNING 'İsim Soyisim Aynı Olan Kullanıcı Bulunmaktadır!';
+            RETURN;
+        END IF;
+    END LOOP;
     INSERT INTO users (fname, lname, birth_date, gender, phone_number, email, address, user_role) VALUES (first_name, last_name, now(), userGender, phone, mail, userAddress, usrRole);
 END;
 $$ LANGUAGE 'plpgsql';
