@@ -48,9 +48,10 @@ CREATE TABLE land_registry (
 );
 
 ALTER TABLE users ADD CONSTRAINT check_role CHECK (user_role IN ('Customer', 'Employee'));
+ALTER TABLE users ADD CONSTRAINT chech_age CHECK ( EXTRACT(YEAR FROM AGE(NOW(), birth_date)) >= 18 );
 
 CREATE VIEW user_land_registry AS
-	SELECT ssn, fname, lname, birth_date, gender, phone_number, email, address, wallet, user_role, land_registry_id, property_id, price, issued_at 
+	SELECT ssn, fname, lname, birth_date, gender, phone_number, email, address, wallet, user_role, land_registry_id, property_id, price, issued_at, is_active
 	FROM users INNER JOIN land_registry ON users.ssn = land_registry.buyer_ssn;
 
 CREATE VIEW land_registry_property AS
@@ -61,11 +62,11 @@ CREATE VIEW land_registry_property AS
 CREATE OR REPLACE FUNCTION insertUser(first_name users.fname%type, last_name users.lname%type, userGender users.gender%type,phone users.phone_number%type, mail users.email%type, userAddress users.address%type, usrRole users.user_role%type)
     RETURNS VOID AS $$
 DECLARE
-    cur CURSOR FOR SELECT fname, lname FROM users;
+    cur CURSOR FOR SELECT phone_number FROM users;
 BEGIN
     FOR row IN cur LOOP
-        IF row.fname = first_name AND row.lname = last_name THEN
-            RAISE WARNING 'İsim Soyisim Aynı Olan Kullanıcı Bulunmaktadır!';
+        IF row.phone_number = phone THEN
+            RAISE WARNING 'Aynı Numaraya Sahip 2 Kişi Bulunamaz!';
             RETURN;
         END IF;
     END LOOP;
@@ -94,10 +95,40 @@ BEGIN
 END;
 $$ LANGUAGE 'plpgsql';
 
-CREATE OR REPLACE FUNCTION updateBalance(userSSN users.ssn%type, balance users.wallet%type)
-    RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION updateBalance()
+    RETURNS TRIGGER AS $$
 BEGIN
-    UPDATE users SET wallet = wallet + balance WHERE ssn = userSSN;
+    IF new.wallet < 0 THEN
+        RAISE WARNING 'Bakiye Negatif Olamaz!';
+        RETURN NULL;
+    END IF;
+    UPDATE users SET wallet = new.wallet WHERE ssn = old.ssn;
+    RETURN NEW;
+END;
+$$ LANGUAGE 'plpgsql';
+
+CREATE TRIGGER balance_trigger
+    BEFORE UPDATE
+    ON users
+    FOR EACH ROW EXECUTE PROCEDURE updateBalance();
+
+CREATE TYPE user_owns AS (user_ssn NUMERIC, user_wallet NUMERIC);
+
+CREATE OR REPLACE FUNCTION max_user_land(user_address users.address%type)
+    RETURNS user_owns AS $$
+DECLARE
+    max_user_owns user_owns;
+    likes_statement VARCHAR(64);
+BEGIN
+    likes_statement := concat('%',user_address,'%');
+
+    SELECT ssn, max(wallet) into max_user_owns
+    FROM user_land_registry
+    WHERE address LIKE likes_statement AND is_active = TRUE
+    GROUP BY ssn
+    HAVING count(*) > 0;
+
+    RETURN max_user_owns;
 END;
 $$ LANGUAGE 'plpgsql';
 
@@ -149,6 +180,7 @@ CREATE TRIGGER circulate_capital
 BEFORE INSERT
 ON land_registry
 FOR EACH ROW EXECUTE PROCEDURE sell_property();
+
 
 INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Engin','Memiş',500000,'Customer');
 INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Emirhan','Paksoy',70000000,'Customer');
