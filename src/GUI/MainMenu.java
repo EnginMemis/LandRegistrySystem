@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
@@ -17,6 +19,7 @@ import javax.swing.SwingConstants;
 
 public class MainMenu extends JFrame {
 	private JPanel contentPane;
+	JComboBox comboBox;
 
 	/**
 	 * Launch the application.
@@ -38,7 +41,7 @@ public class MainMenu extends JFrame {
 	 * Create the frame.
 	 */
 	public MainMenu() {
-		ImageIcon bg = new ImageIcon("1.png");
+
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 170, 940, 720);
@@ -64,7 +67,7 @@ public class MainMenu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Devir d = new Devir();
 				d.setVisible(true);
-				setVisible(false);
+				dispose();
 			}
 		});
 		
@@ -83,6 +86,9 @@ public class MainMenu extends JFrame {
 		btnNewButton_1.setBackground(Color.GRAY);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Bilgiler b = new Bilgiler();
+				b.setVisible(true);
+				dispose();
 			}
 		});
 		
@@ -93,7 +99,36 @@ public class MainMenu extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btnVeriTabanGncelle = new JButton("Bakiye Ekleme");
+		JButton btnVeriTabanGncelle = new JButton("Verileri Güncelle");
+		btnVeriTabanGncelle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(btnVeriTabanGncelle.getText().equals("Uygula")) {
+					if(comboBox.getSelectedItem().equals("Kullanıcı Sil")) {
+						Sil sil = new Sil("Kullanıcı SSN :");
+						sil.setVisible(true);
+					}
+					else if(comboBox.getSelectedItem().equals("Mülk Sil")) {
+						Sil sil = new Sil("Mülk ID :");
+						sil.setVisible(true);
+					}
+					else if(comboBox.getSelectedItem().equals("Kullanıcı Ekle")) {
+						
+					}
+					else if(comboBox.getSelectedItem().equals("Mülk Ekle")) {
+						
+					}
+					else {
+						
+					}		
+				}
+				else {
+					btnVeriTabanGncelle.setText("Uygula");
+					comboBox.setVisible(true);
+				}
+				
+			}
+		});
+		
 		btnVeriTabanGncelle.setForeground(Color.WHITE);
 		btnVeriTabanGncelle.setFont(new Font("Bodoni MT", Font.PLAIN, 22));
 		btnVeriTabanGncelle.setBounds(2, 2, 180, 94);
@@ -105,6 +140,12 @@ public class MainMenu extends JFrame {
 		lblNewLabel.setFont(new Font("Castellar", Font.BOLD, 30));
 		lblNewLabel.setBounds(190, 11, 601, 129);
 		contentPane.add(lblNewLabel);
+		
+		String[] dizi = {"Kullanıcı Ekle","Mülk Ekle","Kullanıcı Sil","Mülk Sil","Kullanıcı Bakiye Güncelle"};
+		comboBox = new JComboBox(dizi);
+		comboBox.setBounds(400, 415, 184, 40);
+		contentPane.add(comboBox);
+		comboBox.setVisible(false);
 		
 		JLabel lblNewLabel_1 = new JLabel("New label");
 		lblNewLabel_1.setIcon(new ImageIcon("2.jpg"));

@@ -52,6 +52,8 @@ public class Devir extends JFrame {
 	PropertyService propertyService = new PropertyService(new DbService());
 	LandRegistryService landRegistryService = new LandRegistryService(new DbService());
 	User person;
+	private JPanel panel_3;
+	private JButton btnNewButton_3;
 
 	/**
 	 * Launch the application.
@@ -228,6 +230,30 @@ public class Devir extends JFrame {
 		btnNewButton_2.setBackground(Color.DARK_GRAY);
 		btnNewButton_2.setBounds(2, 2, 168, 66);
 		panel_1.add(btnNewButton_2);
+		
+		
+		
+		panel_3 = new JPanel();
+		panel_3.setLayout(null);
+		panel_3.setForeground(Color.BLACK);
+		panel_3.setBackground(Color.BLACK);
+		panel_3.setBounds(773, 26, 106, 36);
+		contentPane.add(panel_3);
+		
+		btnNewButton_3 = new JButton("Listele");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainMenu main = new MainMenu();
+				main.setVisible(true);
+				dispose();
+			}
+		});
+		btnNewButton_3.setForeground(Color.WHITE);
+		btnNewButton_3.setFont(new Font("Bodoni MT", Font.PLAIN, 22));
+		btnNewButton_3.setFocusable(false);
+		btnNewButton_3.setBackground(Color.DARK_GRAY);
+		btnNewButton_3.setBounds(2, 2, 102, 32);
+		panel_3.add(btnNewButton_3);
 		
 		lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setIcon(new ImageIcon("2.jpg"));
