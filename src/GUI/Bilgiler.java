@@ -11,25 +11,16 @@ import Services.UserService;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JLabel;
-import javax.swing.DefaultListSelectionModel;
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import java.awt.Color;
-import javax.swing.JButton;
 import java.awt.Font;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javax.swing.JTextField;
 
 public class Bilgiler extends JFrame {
 	String[][] veri;
@@ -205,21 +196,76 @@ public class Bilgiler extends JFrame {
 					}
 				}
 				else {
-					comboBox2.setVisible(true);
 					ArrayList<User> userList = new ArrayList<>();
 					baslik = new String[]{ "SSN", "Name", "Surname", "Gender","Phone Number","E-mail", "Address", "Wallet"};
-					i = 0;
-					try {
-						userList = userService.getAll();
-						veri = new String[userList.size()][9];
-						for(User u : userList){
-							veri[i] = new String[]{u.getSsn().toString(), u.getFname(), u.getLname(),
-													u.getGender(), u.getPhoneNumber(), u.getEmail(), u.getAddress(),
-									String.valueOf(u.getWallet())};
-							i++;
-						}
-					} catch (SQLException ex) {
+					comboBox2.setVisible(true);
+					if(comboBox2.getSelectedItem().toString().equals("Tümü")){
+						i = 0;
+						try {
+							userList = userService.getAll();
+							veri = new String[userList.size()][9];
+							for(User u : userList){
+								veri[i] = new String[]{u.getSsn().toString(), u.getFname(), u.getLname(),
+										u.getGender(), u.getPhoneNumber(), u.getEmail(), u.getAddress(),
+										String.valueOf(u.getWallet())};
+								i++;
+							}
+						} catch (SQLException ex) {
 
+						}
+					} else if (comboBox2.getSelectedItem().toString().equals("Kişiye Göre")) {
+						try{
+							Integer ssn = Integer.parseInt(textField.getText());
+							User u = userService.get(ssn);
+							veri = new String[1][9];
+							veri[0] = new String[]{u.getSsn().toString(), u.getFname(), u.getLname(),
+									u.getGender(), u.getPhoneNumber(), u.getEmail(), u.getAddress(),
+									String.valueOf(u.getWallet())};
+						}catch (Exception e1){
+							JOptionPane.showMessageDialog(null, "Kullanıcı bulunamadı !!!");
+							veri = null;
+						}
+					} else if (comboBox2.getSelectedItem().toString().equals("Adrese Göre")) {
+						String address = textField.getText();
+						try {
+							System.out.println(userService.getRichestUser(address));
+						} catch (SQLException ex) {
+							ex.printStackTrace();
+						}
+					} else if (comboBox2.getSelectedItem().toString().equals("Role Göre")) {
+						String role = textField.getText();
+						if(role.equals("Employee")){
+							try {
+								userList = userService.listEmployee();
+								veri = new String[userList.size()][9];
+								i = 0;
+								for(User u : userList){
+									veri[i] = new String[]{u.getSsn().toString(), u.getFname(), u.getLname(),
+											u.getGender(), u.getPhoneNumber(), u.getEmail(), u.getAddress(),
+											String.valueOf(u.getWallet())};
+									i++;
+								}
+							} catch (SQLException ex) {
+
+							}
+						} else if (role.equals("Customer")) {
+							try {
+								userList = userService.listCustomer();
+								veri = new String[userList.size()][9];
+								i = 0;
+								for(User u : userList){
+									veri[i] = new String[]{u.getSsn().toString(), u.getFname(), u.getLname(),
+											u.getGender(), u.getPhoneNumber(), u.getEmail(), u.getAddress(),
+											String.valueOf(u.getWallet())};
+									i++;
+								}
+							} catch (SQLException ex) {
+
+							}
+						}
+						else{
+							JOptionPane.showMessageDialog(null, "Yanlış Rol Girildi !!!");
+						}
 					}
 				}
 				DefaultTableModel tablemodel = new DefaultTableModel(veri,baslik) {

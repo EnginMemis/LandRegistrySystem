@@ -118,25 +118,25 @@ CREATE TRIGGER balance_trigger
     ON users
     FOR EACH ROW EXECUTE PROCEDURE update_balance_trigger_function();
 
-CREATE TYPE user_owns AS (user_ssn NUMERIC, user_wallet NUMERIC);
+CREATE TYPE rich_user AS (user_ssn INTEGER);
 
 CREATE OR REPLACE FUNCTION max_user_land(user_address users.address%type)
-    RETURNS user_owns AS $$
+    RETURNS rich_user AS $$
 DECLARE
-    max_user_owns user_owns;
+    rich rich_user;
     likes_statement VARCHAR(64);
 BEGIN
     likes_statement := concat('%',user_address,'%');
 
-    SELECT ssn, max(wallet) into max_user_owns
+    SELECT ssn into rich
     FROM user_land_registry
     WHERE address LIKE likes_statement AND is_active = TRUE
     GROUP BY ssn
     HAVING count(*) > 0;
-
-    RETURN max_user_owns;
+    RETURN rich;
 END;
 $$ LANGUAGE 'plpgsql';
+
 
 CREATE OR REPLACE FUNCTION sell_property()
 RETURNS TRIGGER AS $$

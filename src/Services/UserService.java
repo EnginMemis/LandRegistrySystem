@@ -60,6 +60,15 @@ public class UserService implements IUserService {
         }
     }
 
+    public Integer getRichestUser(String address) throws SQLException{
+        Connection connection = this.dbService.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{? = call max_user_land(?)}");
+        callableStatement.setString(2, address);
+        callableStatement.registerOutParameter(1, Types.INTEGER);
+        callableStatement.execute();
+        return callableStatement.getInt(1);
+    }
+
     @Override
     public User create(User user) throws SQLException {
         Connection connection = this.dbService.getConnection();
