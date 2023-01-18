@@ -225,10 +225,11 @@ public class Bilgiler extends JFrame {
 							JOptionPane.showMessageDialog(null, "Kullanıcı bulunamadı !!!");
 							veri = null;
 						}
-					} else if (comboBox2.getSelectedItem().toString().equals("Adrese Göre")) {
+					} else if (comboBox2.getSelectedItem().toString().equals("Adrese Göre En Zengini Bul")) {
 						String address = textField.getText();
 						try {
-							System.out.println(userService.getRichestUser(address));
+							Integer ssn = userService.getRichestUser(address);
+							JOptionPane.showMessageDialog(null, "Bu adresteki en zengin kişi "+ssn.toString()+" ssn'li kisidir.");
 						} catch (SQLException ex) {
 							ex.printStackTrace();
 						}

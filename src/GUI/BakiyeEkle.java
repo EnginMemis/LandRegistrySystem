@@ -89,9 +89,13 @@ public class BakiyeEkle extends JFrame {
 
 				try {
 					userService.updateBalance(ssn, balance);
+					MainMenu main = new MainMenu();
+					main.setVisible(true);
+					dispose();
 				} catch (SQLException ex) {
 					ex.printStackTrace();
 				}
+				
 			}
 		});
 		btnEkle.setForeground(Color.WHITE);

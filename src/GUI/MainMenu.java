@@ -108,19 +108,9 @@ public class MainMenu extends JFrame {
 						sil.setVisible(true);
 						dispose();
 					}
-					else if(comboBox.getSelectedItem().equals("Mülk Sil")) {
-						Sil sil = new Sil("Mülk ID :");
-						sil.setVisible(true);
-						dispose();
-					}
 					else if(comboBox.getSelectedItem().equals("Kullanıcı Ekle")) {
 						KullanıcıEkle ke = new KullanıcıEkle();
 						ke.setVisible(true);
-						dispose();
-					}
-					else if(comboBox.getSelectedItem().equals("Mülk Ekle")) {
-						MülkEkle me = new MülkEkle();
-						me.setVisible(true);
 						dispose();
 					}
 					else {
@@ -150,7 +140,7 @@ public class MainMenu extends JFrame {
 		lblNewLabel.setBounds(190, 11, 601, 129);
 		contentPane.add(lblNewLabel);
 		
-		String[] dizi = {"Kullanıcı Ekle","Kullanıcı Sil","Mülk Ekle","Mülk Sil","Kullanıcı Bakiye Güncelle"};
+		String[] dizi = {"Kullanıcı Ekle","Kullanıcı Sil","Kullanıcı Bakiye Güncelle"};
 		
 		panel_3 = new JPanel();
 		panel_3.setBackground(Color.BLACK);

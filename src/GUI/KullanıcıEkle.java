@@ -118,10 +118,15 @@ public class KullanıcıEkle extends JFrame {
 
 					User user = new User(fname, lname, date, gender, phone, email, address,0, role);
 					userService.create(user);
+					
+					MainMenu main = new MainMenu();
+					main.setVisible(true);
+					dispose();
 				}catch (Exception e1){
 					e1.printStackTrace();
-					JOptionPane.showMessageDialog(null,"(yyyy-mm-dd) Şeklinde Giriniz!!!");
+					JOptionPane.showMessageDialog(null,"(yyyy-mm-dd) Şeklinde Girilmeli ve Kullanıcı 18 Yaşından Büyük Olmalı!!!");
 				}
+				
 
 			}
 		});

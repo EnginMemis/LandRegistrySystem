@@ -222,6 +222,7 @@ public class Devir extends JFrame {
 						textField.setText("");
 						textField_1.setText("");
 						scrollPane.setVisible(false);
+						panel_6.setVisible(false);
 					}
 					else if(i == -1){
 						JOptionPane.showMessageDialog(null, "Tapu seçilmedi !!!");

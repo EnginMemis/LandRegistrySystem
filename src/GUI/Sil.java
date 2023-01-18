@@ -74,15 +74,15 @@ public class Sil extends JFrame {
 				Integer ssn = Integer.parseInt(textField.getText());
 				try {
 					userService.delete(ssn);
+					landRegistryService.changeIsActive(ssn);
+					MainMenu main = new MainMenu();
+					main.setVisible(true);
+					dispose();
 				} catch (SQLException ex) {
 					JOptionPane.showMessageDialog(null, "Kullanıcı Silinemedi !!!");
 				}
-				try {
-					landRegistryService.changeIsActive(ssn);
-				} catch (SQLException ex) {
 
-				}
-
+				
 			}
 		});
 		btnSil.setForeground(Color.WHITE);
