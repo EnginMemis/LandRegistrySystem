@@ -109,7 +109,7 @@ public class Bilgiler extends JFrame {
 			}
 		});
 		
-		String[] dizi2 = {"Tümü","Kişiye Göre","Adrese Göre","Role Göre"};
+		String[] dizi2 = {"Tümü","Kişiye Göre","Adrese Göre En Zengini Bul","Role Göre"};
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.BLACK);
@@ -132,7 +132,7 @@ public class Bilgiler extends JFrame {
 					if(comboBox2.getSelectedItem().equals("Kişiye Göre")) {
 						lblNewLabel_1.setText("Kullanıcı SSN :");
 					}
-					else if(comboBox2.getSelectedItem().equals("Adrese Göre")) {
+					else if(comboBox2.getSelectedItem().equals("Adrese Göre En Zengini Bul")) {
 						lblNewLabel_1.setText("Adres :");
 					}
 					else {
@@ -231,7 +231,6 @@ public class Bilgiler extends JFrame {
 							Integer ssn = userService.getRichestUser(address);
 							JOptionPane.showMessageDialog(null, "Bu adresteki en zengin kişi "+ssn.toString()+" ssn'li kisidir.");
 						} catch (SQLException ex) {
-							ex.printStackTrace();
 						}
 					} else if (comboBox2.getSelectedItem().toString().equals("Role Göre")) {
 						String role = textField.getText();

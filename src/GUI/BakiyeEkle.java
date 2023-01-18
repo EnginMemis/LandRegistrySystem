@@ -93,7 +93,6 @@ public class BakiyeEkle extends JFrame {
 					main.setVisible(true);
 					dispose();
 				} catch (SQLException ex) {
-					ex.printStackTrace();
 				}
 				
 			}

@@ -108,7 +108,6 @@ public class MülkEkle extends JFrame {
 					String title = textField_4.getText();
 					String f_value = textField_5.getText();
 				}catch (Exception e1){
-					e1.printStackTrace();
 				}
 			}
 		});

@@ -123,7 +123,6 @@ public class KullanıcıEkle extends JFrame {
 					main.setVisible(true);
 					dispose();
 				}catch (Exception e1){
-					e1.printStackTrace();
 					JOptionPane.showMessageDialog(null,"(yyyy-mm-dd) Şeklinde Girilmeli ve Kullanıcı 18 Yaşından Büyük Olmalı!!!");
 				}
 				

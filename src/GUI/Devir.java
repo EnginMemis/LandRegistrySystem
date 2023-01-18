@@ -231,7 +231,6 @@ public class Devir extends JFrame {
 						JOptionPane.showMessageDialog(null, "Alıcı Kişisi Bulunamadi !!!");
 					}
 				} catch(Exception e1){
-					e1.printStackTrace();
 					JOptionPane.showMessageDialog(null, "Kullanıcı bulunamadı !!!");
 				}
 		}});
@@ -281,7 +280,6 @@ public class Devir extends JFrame {
 						JOptionPane.showMessageDialog(null, "Alıcı Kişisi Bulunamadi !!!");
 					}
 				} catch(Exception e1){
-					e1.printStackTrace();
 					JOptionPane.showMessageDialog(null, "Kullanıcı bulunamadı !!!");
 				}
 			}
