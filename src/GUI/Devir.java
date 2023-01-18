@@ -249,6 +249,42 @@ public class Devir extends JFrame {
 		contentPane.add(panel_1);
 		
 		btnNewButton_2 = new JButton("Bagıs Yap");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					LandRegistry land;
+					Integer tmp2 = Integer.parseInt(textField_1.getText());
+					int ID = -1;
+					int i = table.getSelectedRow();
+					if(i != -1  && userService.get(tmp2) != null) {
+						ArrayList<LandRegistry> landList = landRegistryService.getLands(person.getSsn());
+						for(LandRegistry landRegistry : landList){
+							if(Integer.parseInt(veri[i][0]) == landRegistry.getPropertyId() && landRegistry.isActive()){
+								ID = landRegistry.getPropertyId();
+							}
+						}
+						land = landRegistryService.create(new LandRegistry(null, ID, tmp2, person.getSsn(),
+								0, null, true));
+						if(land.getWarning() != null){
+							JOptionPane.showMessageDialog(null, land.getWarning());
+						}
+						textField.setText("");
+						textField_1.setText("");
+						scrollPane.setVisible(false);
+					}
+					else if(i == -1){
+						JOptionPane.showMessageDialog(null, "Tapu seçilmedi !!!");
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "Alıcı Kişisi Bulunamadi !!!");
+					}
+				} catch(Exception e1){
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Kullanıcı bulunamadı !!!");
+				}
+			}
+		});
 		btnNewButton_2.setForeground(Color.WHITE);
 		btnNewButton_2.setFont(new Font("Bodoni MT", Font.PLAIN, 22));
 		btnNewButton_2.setFocusable(false);

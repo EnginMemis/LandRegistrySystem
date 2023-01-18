@@ -1,5 +1,8 @@
 package GUI;
 
+import Services.DbService;
+import Services.UserService;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -13,12 +16,15 @@ import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
 
 public class BakiyeEkle extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
+
+	UserService userService = new UserService(new DbService());
 
 	/**
 	 * Launch the application.
@@ -78,6 +84,14 @@ public class BakiyeEkle extends JFrame {
 		JButton btnEkle = new JButton("Ekle");
 		btnEkle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Integer ssn = Integer.parseInt(textField.getText());
+				Integer balance = Integer.parseInt(textField_1.getText());
+
+				try {
+					userService.updateBalance(ssn, balance);
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
 			}
 		});
 		btnEkle.setForeground(Color.WHITE);

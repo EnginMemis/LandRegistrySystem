@@ -1,5 +1,10 @@
 package GUI;
 
+import Models.Property;
+import Services.DbService;
+import Services.PropertyFeatureService;
+import Services.PropertyService;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -25,6 +30,8 @@ public class MülkEkle extends JFrame {
 	private JTextField textField_4;
 	private JTextField textField_5;
 
+	PropertyService propertyService = new PropertyService(new DbService());
+	PropertyFeatureService propertyFeatureService = new PropertyFeatureService(new DbService());
 	/**
 	 * Launch the application.
 	 */
@@ -93,6 +100,16 @@ public class MülkEkle extends JFrame {
 		JButton btnEkle = new JButton("Ekle");
 		btnEkle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try{
+					String address = textField.getText();
+					String type = textField_1.getText();
+					Integer value = Integer.parseInt(textField_2.getText());
+					Double area = Double.parseDouble(textField_3.getText());
+					String title = textField_4.getText();
+					String f_value = textField_5.getText();
+				}catch (Exception e1){
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnEkle.setForeground(Color.WHITE);

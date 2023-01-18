@@ -1,24 +1,27 @@
 package GUI;
 
+import Services.DbService;
+import Services.LandRegistryService;
+import Services.PropertyService;
+import Services.UserService;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
 import java.awt.Font;
-import javax.swing.JTextField;
 import java.awt.Color;
-import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
 
 public class Sil extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
+	UserService userService = new UserService(new DbService());
+	LandRegistryService landRegistryService = new LandRegistryService(new DbService());
 
 	/**
 	 * Launch the application.
@@ -68,6 +71,18 @@ public class Sil extends JFrame {
 		JButton btnSil = new JButton("Sil");
 		btnSil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Integer ssn = Integer.parseInt(textField.getText());
+				try {
+					userService.delete(ssn);
+				} catch (SQLException ex) {
+					JOptionPane.showMessageDialog(null, "Kullanıcı Silinemedi !!!");
+				}
+				try {
+					landRegistryService.changeIsActive(ssn);
+				} catch (SQLException ex) {
+
+				}
+
 			}
 		});
 		btnSil.setForeground(Color.WHITE);

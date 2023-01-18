@@ -1,19 +1,19 @@
 package GUI;
 
+import Models.User;
+import Services.DbService;
+import Services.UserService;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Color;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.sql.Date;
 
 public class KullanıcıEkle extends JFrame {
 
@@ -25,7 +25,9 @@ public class KullanıcıEkle extends JFrame {
 	private JTextField textField_4;
 	private JTextField textField_5;
 	private JTextField textField_6;
+	private JComboBox comboBox;
 
+	UserService userService = new UserService(new DbService());
 	/**
 	 * Launch the application.
 	 */
@@ -104,6 +106,23 @@ public class KullanıcıEkle extends JFrame {
 		JButton btnEkle = new JButton("Ekle");
 		btnEkle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String fname = textField.getText();
+				String lname = textField_1.getText();
+				try {
+					Date date = Date.valueOf(textField_2.getText());
+					String gender = textField_3.getText();
+					String phone = textField_4.getText();
+					String email = textField_5.getText();
+					String address = textField_6.getText();
+					String role = comboBox.getSelectedItem().toString();
+
+					User user = new User(fname, lname, date, gender, phone, email, address,0, role);
+					userService.create(user);
+				}catch (Exception e1){
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null,"(yyyy-mm-dd) Şeklinde Giriniz!!!");
+				}
+
 			}
 		});
 		btnEkle.setForeground(Color.WHITE);
@@ -171,7 +190,7 @@ public class KullanıcıEkle extends JFrame {
 		contentPane.add(textField_6);
 		
 		String[] dizi = {"Customer","Employee"};
-		JComboBox comboBox = new JComboBox(dizi);
+		comboBox = new JComboBox(dizi);
 		comboBox.setBounds(192, 384, 135, 36);
 		contentPane.add(comboBox);
 	}

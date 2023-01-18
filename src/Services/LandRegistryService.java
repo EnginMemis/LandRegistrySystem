@@ -95,6 +95,13 @@ public class LandRegistryService implements ILandRegistryService {
         return landRegistry;
     }
 
+    public void changeIsActive(Integer ssn) throws SQLException{
+        Connection connection = this.dbService.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "UPDATE land_registry SET is_active = false WHERE buyer_ssn = ?");
+        preparedStatement.setInt(1, ssn);
+    }
+
     @Override
     public LandRegistry update(Integer id, UpdateLandRegistry newLandRegistry) throws SQLException {
         Connection connection = this.dbService.getConnection();

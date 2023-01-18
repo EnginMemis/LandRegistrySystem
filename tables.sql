@@ -59,7 +59,7 @@ CREATE VIEW land_registry_property AS
 	FROM land_registry INNER JOIN property ON land_registry.property_id = property.property_id;
 
 
-CREATE OR REPLACE FUNCTION insertUser(first_name users.fname%type, last_name users.lname%type, userGender users.gender%type,phone users.phone_number%type, mail users.email%type, userAddress users.address%type, usrRole users.user_role%type)
+CREATE OR REPLACE FUNCTION insertUser(first_name users.fname%type, last_name users.lname%type, b_date users.birth_date%type, userGender users.gender%type,phone users.phone_number%type, mail users.email%type, userAddress users.address%type, usrRole users.user_role%type)
     RETURNS VOID AS $$
 DECLARE
     cur CURSOR FOR SELECT phone_number FROM users;
@@ -70,7 +70,7 @@ BEGIN
             RETURN;
         END IF;
     END LOOP;
-    INSERT INTO users (fname, lname, birth_date, gender, phone_number, email, address, user_role) VALUES (first_name, last_name, now(), userGender, phone, mail, userAddress, usrRole);
+    INSERT INTO users (fname, lname, birth_date, gender, phone_number, email, address, user_role) VALUES (first_name, last_name, b_date, userGender, phone, mail, userAddress, usrRole);
 END;
 $$ LANGUAGE 'plpgsql';
 

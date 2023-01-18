@@ -91,6 +91,21 @@ public class UserService implements IUserService {
         return user;
     }
 
+    public void insertUser(User user) throws SQLException{
+        Connection connection = this.dbService.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call insertUser(?,?,?,?,?,?,?,?)}");
+        callableStatement.setString(1, user.getFname());
+        callableStatement.setString(2, user.getLname());
+        callableStatement.setDate(3, user.getBirthDate());
+        callableStatement.setString(4, user.getGender());
+        callableStatement.setString(5, user.getPhoneNumber());
+        callableStatement.setString(6, user.getEmail());
+        callableStatement.setString(7, user.getAddress());
+        callableStatement.setString(8, user.getRole());
+
+        callableStatement.execute();
+    }
+
     @Override
     public User update(Integer ssn, UpdateUser newUser) throws SQLException {
         Connection connection = this.dbService.getConnection();
@@ -124,6 +139,15 @@ public class UserService implements IUserService {
                 newUser.address(),
                 newUser.wallet(),
                 newUser.role());
+    }
+
+    public void updateBalance(Integer ssn, Integer balance) throws SQLException{
+        Connection connection = this.dbService.getConnection();
+        CallableStatement callableStatement = connection.prepareCall("{call update_balance(?,?)}");
+        callableStatement.setInt(1, ssn);
+        callableStatement.setInt(2, balance);
+
+        callableStatement.execute();
     }
 
     public ArrayList<User> listCustomer() throws SQLException{
