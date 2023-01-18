@@ -20,7 +20,7 @@ import javax.swing.SwingConstants;
 public class MainMenu extends JFrame {
 	private JPanel contentPane;
 	JComboBox comboBox;
-
+	JPanel panel_3;
 	/**
 	 * Launch the application.
 	 */
@@ -44,7 +44,7 @@ public class MainMenu extends JFrame {
 
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(500, 170, 940, 720);
+		setBounds(490, 180, 940, 720);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -83,7 +83,7 @@ public class MainMenu extends JFrame {
 		btnNewButton_1.setBounds(2, 2, 180, 94);
 		btnNewButton_1.setFocusable(false);
 		panel_1.add(btnNewButton_1);
-		btnNewButton_1.setBackground(Color.GRAY);
+		btnNewButton_1.setBackground(Color.DARK_GRAY);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Bilgiler b = new Bilgiler();
@@ -131,6 +131,7 @@ public class MainMenu extends JFrame {
 				}
 				else {
 					btnVeriTabanGncelle.setText("Uygula");
+					panel_3.setVisible(true);
 					comboBox.setVisible(true);
 				}
 				
@@ -142,7 +143,7 @@ public class MainMenu extends JFrame {
 		btnVeriTabanGncelle.setBounds(2, 2, 180, 94);
 		btnVeriTabanGncelle.setFocusable(false);
 		panel.add(btnVeriTabanGncelle);
-		btnVeriTabanGncelle.setBackground(Color.LIGHT_GRAY);
+		btnVeriTabanGncelle.setBackground(Color.DARK_GRAY);
 		
 		JLabel lblNewLabel = new JLabel("Tapu Müdürlügü Bilgi Sistemi\r\n");
 		lblNewLabel.setFont(new Font("Castellar", Font.BOLD, 30));
@@ -150,9 +151,18 @@ public class MainMenu extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		String[] dizi = {"Kullanıcı Ekle","Kullanıcı Sil","Mülk Ekle","Mülk Sil","Kullanıcı Bakiye Güncelle"};
+		
+		panel_3 = new JPanel();
+		panel_3.setBackground(Color.BLACK);
+		panel_3.setBounds(400, 415, 188, 44);
+		contentPane.add(panel_3);
+		panel_3.setLayout(null);
+		panel_3.setVisible(false);
 		comboBox = new JComboBox(dizi);
-		comboBox.setBounds(400, 415, 184, 40);
-		contentPane.add(comboBox);
+		comboBox.setForeground(Color.WHITE);
+		comboBox.setBackground(Color.GRAY);
+		comboBox.setBounds(2, 2, 184, 40);
+		panel_3.add(comboBox);
 		comboBox.setVisible(false);
 		
 		JLabel lblNewLabel_1 = new JLabel("New label");

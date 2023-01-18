@@ -54,6 +54,9 @@ public class Devir extends JFrame {
 	User person;
 	private JPanel panel_3;
 	private JButton btnNewButton_3;
+	private JPanel panel_4;
+	private JPanel panel_5;
+	private JPanel panel_6;
 
 	/**
 	 * Launch the application.
@@ -77,15 +80,21 @@ public class Devir extends JFrame {
 	public Devir() {
 		setBackground(Color.LIGHT_GRAY);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(500, 170, 940, 720);
+		setBounds(490, 180, 940, 720);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		panel_4 = new JPanel();
+		panel_4.setBackground(Color.BLACK);
+		panel_4.setBounds(64, 110, 106, 36);
+		contentPane.add(panel_4);
+		panel_4.setLayout(null);
+		
 		textField = new JTextField();
-		textField.setBounds(64, 110, 106, 36);
-		contentPane.add(textField);
+		textField.setBounds(2, 2, 102, 32);
+		panel_4.add(textField);
 		textField.setColumns(10);
 		
 		lblNewLabel = new JLabel("ID:");
@@ -102,9 +111,16 @@ public class Devir extends JFrame {
 		panel_2.setBounds(195, 110, 106, 36);
 		contentPane.add(panel_2);
 		
+		panel_6 = new JPanel();
+		panel_6.setBackground(Color.BLACK);
+		panel_6.setBounds(353, 108, 532, 327);
+		contentPane.add(panel_6);
+		panel_6.setLayout(null);
+		panel_6.setVisible(false);
+		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(355, 110, 524, 319);
-		contentPane.add(scrollPane);
+		scrollPane.setBounds(4, 4, 524, 319);
+		panel_6.add(scrollPane);
 		scrollPane.setVisible(false);
 
 
@@ -139,6 +155,8 @@ public class Devir extends JFrame {
 					table.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
 					scrollPane.setViewportView(table);
 					textField_1.setVisible(true);
+					panel_5.setVisible(true);
+					panel_6.setVisible(true);
 					lblNewLabel_1.setVisible(true);
 					scrollPane.setVisible(true);
 				} catch (Exception ex) {
@@ -159,10 +177,17 @@ public class Devir extends JFrame {
 		contentPane.add(lblNewLabel_1);
 		lblNewLabel_1.setVisible(false);
 		
+		panel_5 = new JPanel();
+		panel_5.setBackground(Color.BLACK);
+		panel_5.setBounds(64, 199, 106, 36);
+		contentPane.add(panel_5);
+		panel_5.setLayout(null);
+		panel_5.setVisible(false);
+		
 		textField_1 = new JTextField();
+		textField_1.setBounds(2, 2, 102, 32);
+		panel_5.add(textField_1);
 		textField_1.setColumns(10);
-		textField_1.setBounds(64, 199, 106, 36);
-		contentPane.add(textField_1);
 		textField_1.setVisible(false);
 		
 		
@@ -237,10 +262,10 @@ public class Devir extends JFrame {
 		panel_3.setLayout(null);
 		panel_3.setForeground(Color.BLACK);
 		panel_3.setBackground(Color.BLACK);
-		panel_3.setBounds(773, 26, 106, 36);
+		panel_3.setBounds(64, 441, 122, 36);
 		contentPane.add(panel_3);
 		
-		btnNewButton_3 = new JButton("Listele");
+		btnNewButton_3 = new JButton("Geri Dön");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MainMenu main = new MainMenu();
@@ -253,7 +278,7 @@ public class Devir extends JFrame {
 		btnNewButton_3.setFont(new Font("Bodoni MT", Font.PLAIN, 22));
 		btnNewButton_3.setFocusable(false);
 		btnNewButton_3.setBackground(Color.DARK_GRAY);
-		btnNewButton_3.setBounds(2, 2, 102, 32);
+		btnNewButton_3.setBounds(2, 2, 118, 32);
 		panel_3.add(btnNewButton_3);
 		
 		lblNewLabel_2 = new JLabel("");
