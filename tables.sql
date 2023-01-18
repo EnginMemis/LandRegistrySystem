@@ -27,8 +27,8 @@ CREATE TABLE property (
 CREATE TABLE property_feature (
 	feature_id NUMERIC PRIMARY KEY NOT NULL DEFAULT nextval('property_feature_id_seq'),
 	property_id NUMERIC NOT NULL,
-	title VARCHAR(16) NOT NULL,
-	value VARCHAR(64),
+	title VARCHAR(64) NOT NULL,
+	value VARCHAR(16),
 	
 	FOREIGN KEY (property_id) REFERENCES property(property_id) ON DELETE CASCADE
 );
@@ -95,14 +95,20 @@ BEGIN
 END;
 $$ LANGUAGE 'plpgsql';
 
-CREATE OR REPLACE FUNCTION updateBalance()
+CREATE OR REPLACE FUNCTION update_balance(user_ssn users.ssn%type, balance users.wallet%type)
+    RETURNS VOID AS $$
+BEGIN
+    UPDATE users SET wallet = wallet + balance WHERE ssn = user_ssn;
+END;
+$$ LANGUAGE 'plpgsql';
+
+CREATE OR REPLACE FUNCTION update_balance_trigger_function()
     RETURNS TRIGGER AS $$
 BEGIN
     IF new.wallet < 0 THEN
         RAISE WARNING 'Bakiye Negatif Olamaz!';
-        RETURN NULL;
+        RETURN OLD;
     END IF;
-    UPDATE users SET wallet = new.wallet WHERE ssn = old.ssn;
     RETURN NEW;
 END;
 $$ LANGUAGE 'plpgsql';
@@ -110,7 +116,7 @@ $$ LANGUAGE 'plpgsql';
 CREATE TRIGGER balance_trigger
     BEFORE UPDATE
     ON users
-    FOR EACH ROW EXECUTE PROCEDURE updateBalance();
+    FOR EACH ROW EXECUTE PROCEDURE update_balance_trigger_function();
 
 CREATE TYPE user_owns AS (user_ssn NUMERIC, user_wallet NUMERIC);
 
@@ -182,24 +188,68 @@ ON land_registry
 FOR EACH ROW EXECUTE PROCEDURE sell_property();
 
 
-INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Engin','Memiş',500000,'Customer');
-INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Emirhan','Paksoy',70000000,'Customer');
-INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Mehmet Anıl','Karaşah',10000,'Employee');
-INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Nisa','Arslan',25000,'Employee');
-INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Elif Sena','Yılmaz',2500000,'Customer');
-INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Şeymanur','Korkmaz',17000000,'Customer');
-INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Beyda','Güler',25000,'Customer');
-INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Umut','Deşer',3100,'Employee');
-INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Yiğit','Sökel',2500000,'Customer');
-INSERT INTO users(fname,lname,wallet,user_role) VALUES ('Berkay','Demirhan',12000,'Employee');
+INSERT INTO users(fname,lname,birth_date,gender,phone_number,email,address,wallet,user_role)
+VALUES ('Engin','Memiş','2000-03-30','M', '0000000','engin.memis@std.yildiz.edu.tr', 'Güngören/İstanbul', 3000000, 'Employee');
 
-INSERT INTO property(address,property_type) VALUES ('Davutpasa','Land');
-INSERT INTO property(address,property_type) VALUES ('YTÜ Ortabahçe','Garden');
-INSERT INTO property(address,property_type) VALUES ('Elektrik-Elektronik Fakültesi','Building');
-INSERT INTO property(address,property_type) VALUES ('Fen-Edebiyat Fakültesi','Building');
-INSERT INTO property(address,property_type) VALUES ('Büyük Ev','Cafe');
-INSERT INTO property(address,property_type) VALUES ('Kayıntı','Cafe');
-INSERT INTO property(address,property_type) VALUES ('Taş Bina','Building');
+INSERT INTO users(fname,lname,birth_date,gender,phone_number,email,address,wallet,user_role)
+VALUES ('Emirhan','Paksoy','2000-06-27','M','1111111','emirhan.paksoy@std.yildiz.edu.tr','Kadıköy/İstanbul',3000000,'Employee');
 
-INSERT INTO land_registry(property_id,buyer_ssn,seller_ssn,price) VALUES (1,1000002,1000001,100000);
-INSERT INTO land_registry(property_id,buyer_ssn,seller_ssn,price) VALUES (1,1000001,1000002,600000);
+INSERT INTO users(fname,lname,birth_date,gender,phone_number,email,address,wallet,user_role)
+VALUES ('Mehmet Anıl','Karaşah','2001-05-14','M', '2222222','anil.karasah@std.yildiz.edu.tr', 'Esenler/İstanbul', 3000000, 'Employee');
+
+INSERT INTO users(fname,lname,birth_date,gender,phone_number,email,address,wallet,user_role)
+VALUES ('Nisa','Arslan','1999-10-01','F', '3333333','nisa.arslan@std.yildiz.edu.tr', 'Esenler/İstanbul', 3000000, 'Customer');
+
+INSERT INTO users(fname,lname,birth_date,gender,phone_number,email,address,wallet,user_role)
+VALUES ('Elif Sena','Yılmaz','2001-05-21','F', '4444444','sena.yilmaz@std.yildiz.edu.tr', 'Esenler/İstanbul', 3000000, 'Customer');
+
+INSERT INTO users(fname,lname,birth_date,gender,phone_number,email,address,wallet,user_role)
+VALUES ('Şeyma','Korkmaz','2002-10-04','F', '5555555','seyma.korkmaz@std.yildiz.edu.tr', 'Bahçelievler/İstanbul', 3000000, 'Customer');
+
+INSERT INTO users(fname,lname,birth_date,gender,phone_number,email,address,wallet,user_role)
+VALUES ('Beyda','Güler','2000-01-01','F', '6666666','beyda.guler@std.yildiz.edu.tr', 'Üsküdar/İstanbul', 3000000, 'Customer');
+
+INSERT INTO users(fname,lname,birth_date,gender,phone_number,email,address,wallet,user_role)
+VALUES ('Ahmet','Tanrıöver','1990-11-27','M', '7777777','ahmet.tanriover@std.yildiz.edu.tr', 'Kadıköy/İstanbul', 3000000, 'Customer');
+
+INSERT INTO users(fname,lname,birth_date,gender,phone_number,email,address,wallet,user_role)
+VALUES ('Yiğit','Sökel','2000-08-14','M', '8888888','yigit.sokel@std.yildiz.edu.tr', 'Güngören/İstanbul', 3000000, 'Customer');
+
+INSERT INTO users(fname,lname,birth_date,gender,phone_number,email,address,wallet,user_role)
+VALUES ('Berkay','Demirhan','2000-01-01','M', '9999999','seyma.korkmaz@std.yildiz.edu.tr', 'Bahçelievler/İstanbul', 3000000, 'Customer');
+
+INSERT INTO property(address,property_type,property_value,area) VALUES ('Davutpaşa','Land',2500000,64500);
+INSERT INTO property(address,property_type,property_value,area) VALUES ('YTÜ Ortabahçe','Garden',800000,1250);
+INSERT INTO property(address,property_type,property_value,area) VALUES ('Elektrik-Elektronik Fakültesi','Building',1500000,600);
+INSERT INTO property(address,property_type,property_value,area) VALUES ('Fen-Edebiyat Fakültesi','Building',1500000,600);
+INSERT INTO property(address,property_type,property_value,area) VALUES ('Büyük Ev','Cafe',1000000, 300);
+INSERT INTO property(address,property_type,property_value,area) VALUES ('Kayıntı','Cafe', 900000, 200);
+INSERT INTO property(address,property_type,property_value,area) VALUES ('Taş Bina','Building', 1250000, 350);
+INSERT INTO property(address,property_type,property_value,area) VALUES ('8 Bit','Cafe', 600000, 100);
+INSERT INTO property(address,property_type,property_value,area) VALUES ('YTÜ Konser Alanı','Garden',700000, 850);
+INSERT INTO property(address,property_type,property_value,area) VALUES ('İnşaat Fakültesi','Building', 900000, 400);
+
+INSERT INTO property_feature(property_id, title, value) VALUES (2, 'Number Of Tree', '200');
+INSERT INTO property_feature(property_id, title, value) VALUES (2, 'Number Of Desk', '30');
+INSERT INTO property_feature(property_id, title, value) VALUES (3, 'Number Of Room', '40');
+INSERT INTO property_feature(property_id, title, value) VALUES (4, 'Number Of Room', '50');
+INSERT INTO property_feature(property_id, title, value) VALUES (5, 'Number Of Table', '45');
+INSERT INTO property_feature(property_id, title, value) VALUES (6, 'Number Of Table', '25');
+INSERT INTO property_feature(property_id, title, value) VALUES (7, 'Number Of Room', '30');
+INSERT INTO property_feature(property_id, title, value) VALUES (8, 'Number Of Table', '15');
+INSERT INTO property_feature(property_id, title, value) VALUES (9, 'Number Of Tree', '110');
+INSERT INTO property_feature(property_id, title, value) VALUES (9, 'Number Of Desk', '10');
+INSERT INTO property_feature(property_id, title, value) VALUES (10, 'Number Of Room', '35');
+
+INSERT INTO land_registry(property_id,buyer_ssn,seller_ssn,price) VALUES (1,1000000,1000003,2500000);
+INSERT INTO land_registry(property_id,buyer_ssn,seller_ssn,price) VALUES (2,1000004,1000000,800000);
+INSERT INTO land_registry(property_id,buyer_ssn,seller_ssn,price) VALUES (3,1000002,1000001,1500000);
+INSERT INTO land_registry(property_id,buyer_ssn,seller_ssn,price) VALUES (4,1000006,1000008,1500000);
+INSERT INTO land_registry(property_id,buyer_ssn,seller_ssn,price) VALUES (5,1000000,1000005,1000000);
+INSERT INTO land_registry(property_id,buyer_ssn,seller_ssn,price) VALUES (6,1000005,1000006,900000);
+INSERT INTO land_registry(property_id,buyer_ssn,seller_ssn,price) VALUES (7,1000009,1000007,1250000);
+INSERT INTO land_registry(property_id,buyer_ssn,seller_ssn,price) VALUES (8,1000004,1000006,600000);
+INSERT INTO land_registry(property_id,buyer_ssn,seller_ssn,price) VALUES (9,1000002,1000007,700000);
+INSERT INTO land_registry(property_id,buyer_ssn,seller_ssn,price) VALUES (10,1000001,1000009,900000);
+
+
