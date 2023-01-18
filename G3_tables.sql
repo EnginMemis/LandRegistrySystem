@@ -216,7 +216,7 @@ INSERT INTO users(fname,lname,birth_date,gender,phone_number,email,address,walle
 VALUES ('Yiğit','Sökel','2000-08-14','M', '8888888','yigit.sokel@std.yildiz.edu.tr', 'Güngören/İstanbul', 3000000, 'Customer');
 
 INSERT INTO users(fname,lname,birth_date,gender,phone_number,email,address,wallet,user_role)
-VALUES ('Berkay','Demirhan','2000-01-01','M', '9999999','seyma.korkmaz@std.yildiz.edu.tr', 'Bahçelievler/İstanbul', 3000000, 'Customer');
+VALUES ('Berkay','Demirhan','2000-01-01','M', '9999999','berkay.demirhan@std.yildiz.edu.tr', 'Bahçelievler/İstanbul', 3000000, 'Customer');
 
 INSERT INTO property(address,property_type,property_value,area) VALUES ('Davutpaşa','Land',2500000,64500);
 INSERT INTO property(address,property_type,property_value,area) VALUES ('YTÜ Ortabahçe','Garden',800000,1250);
