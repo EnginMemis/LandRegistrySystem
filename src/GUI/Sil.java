@@ -66,6 +66,10 @@ public class Sil extends JFrame {
 		contentPane.add(panel_2);
 		
 		JButton btnSil = new JButton("Sil");
+		btnSil.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnSil.setForeground(Color.WHITE);
 		btnSil.setFont(new Font("Bodoni MT", Font.PLAIN, 22));
 		btnSil.setFocusable(false);

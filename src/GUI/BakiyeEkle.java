@@ -76,6 +76,10 @@ public class BakiyeEkle extends JFrame {
 		contentPane.add(panel_2);
 		
 		JButton btnEkle = new JButton("Ekle");
+		btnEkle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnEkle.setForeground(Color.WHITE);
 		btnEkle.setFont(new Font("Bodoni MT", Font.PLAIN, 22));
 		btnEkle.setFocusable(false);
